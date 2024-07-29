@@ -1,0 +1,392 @@
+.navbar
+{
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.200);
+    display: flex;
+    align-items: center;
+    font-family: sans-serif;
+}
+
+.navbar > h1{
+    margin: 0.5rem 1rem ;
+    padding-left: 1rem;
+}
+
+.navbar-options
+{
+    margin-left: auto;
+    margin-right: 2rem;
+}
+
+.logout-btn
+{
+    padding: 0.4rem 0.7rem;
+    border: none;
+    background: #000;
+    color: white;
+    cursor: pointer;
+}
+
+
+/************************************sideNavbar css**********************************************/
+.sideNavbar
+{
+    box-shadow: 7px 0 6px -6px rgba(0, 0, 0, 0.205);
+    background: #405D72;
+    color: white;
+}
+
+ul.sidebar-mainList
+{
+    /* border: 1px solid red; */
+    padding-top: 3rem;
+
+}
+
+.sidebar-mainList a 
+{
+    color: white;
+    text-decoration: none;
+}
+
+.sidebar-mainList li
+{
+    padding: 1.5rem;   
+    cursor: pointer;
+    border-bottom: 0.5px solid rgba(0, 0, 0, 0.075);
+}
+.sidebar-mainList li:hover
+{
+    background:rgba(0, 0, 0, 0.068);
+}
+
+.activeLink
+{
+    background:rgba(0, 0, 0, 0.168);
+}
+
+.mainList-rightArrow
+{
+    margin-left: 1rem;
+
+}
+
+.arrowExtraTransition
+{
+    transform: rotate(0deg);
+    transition: 0.4s ease;
+}
+.rotated_icon
+{
+    transform: rotate(90deg);
+    transition: 0.4s ease;
+}
+
+
+ul.sidebar-subList
+{
+    list-style: circle;
+    list-style-position: inside;
+    border: 1px;    
+}
+
+.sidebar-mainLi
+{
+    display: flex;
+    align-items: center;
+}
+.sidebar-mainLi p
+{
+    padding-left: 5px;
+}
+ul.sidebar-subList li
+{
+    padding: 0.5rem 1.5rem;
+    padding-left: 4rem;
+    border-bottom: none;
+}
+
+.sidebar-mainList li a{
+    color: white;
+    text-decoration: none;
+}
+
+
+
+/******************************* add teacher css******************************************************/
+
+.background_focus{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top:0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #00000046;
+}
+.addTeacher_cancelBtn{
+    position: absolute;
+    top: 0.7rem;
+    right: 1rem;
+    color: black;
+    cursor: pointer;
+}
+.addTeacher-container
+{
+    position: relative;
+    width: 35%;
+    height: auto;
+    background: white;
+    padding: 2rem;
+    overflow: scroll;
+    padding-top: 3rem;
+}
+
+
+.addTeacher-container input
+{
+    padding: 0.5rem 1rem;
+    margin: 0.3rem;
+}
+
+.addTeacherBtn
+{
+    padding: 0.5rem 1.5rem;
+    background: rebeccapurple;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    float: right;
+    margin-top: 2rem;
+    color: white;
+    font-weight: bold;
+}
+
+/* }
+.areYouSure_container p{
+    margin-bottom: 2rem;
+}
+.areYouSure_container .areYouSure_btns
+{
+    float: right;
+    margin-right: 0rem;
+}
+.areYouSure_btns button
+{
+    margin: 0 0.5rem;
+    border: none;
+    outline: none;
+    background-color: black;
+    color: white;
+    padding: 0.4rem 0.9rem;
+    cursor: pointer;
+}
+.areYouSure_btns button:hover{
+    background-color: red;
+} */
+
+
+
+/********************** manage role css **********************/
+.manageRoles_header
+{
+    width: 94%;
+    margin-left: 3%;
+    margin-top: 2rem;
+}
+.manageRoles_header button
+{
+    border: none;
+    margin: 0.4rem;
+    padding: 0.6rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+}
+
+.black
+{
+    background: #000;
+}
+.black:hover
+{
+    background: #000000bb;
+}
+
+.lightGray
+{
+    background: #6C946F;
+}
+.lightGray:hover
+{
+    background: #6c946fc2;
+}
+
+.manageRoles_content
+{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 1.7rem;
+    padding: 1rem 1.7rem;
+    margin-top: 1.5rem;
+    
+}
+
+.manageRoles_content .manageRoles_card
+{
+    cursor: pointer;
+    padding: 1rem;
+    line-height: 3rem;
+    box-shadow: 1px 1px 5px rgba(128, 128, 128, 0.384);
+    height: auto;
+    transition: 0.3s ease;
+}
+
+.manageRoles_content .manageRoles_card:hover
+{
+    
+    transition: 0.3s ease;
+    
+}
+
+.manageRoles_card a
+{
+    background: #6C946F;
+    padding: 0.3rem 0.5rem;
+    text-decoration: none;
+    color: white;
+    border-radius: 5px;
+    
+}
+
+.manageRoles_cardHover:hover
+{
+    background: #00000011;
+}
+.green
+{
+    background: #508D4E;   
+    color: white;
+}
+.manageRoles_card_header
+{
+    display: flex;
+    align-items: center;
+
+}
+.manageRoles_card_header .checkbox_checkedIcon
+{
+    margin-right: 0.5rem;
+    color: #37B7C3;
+}
+.manageRoles_card_header .checkbox_uncheckedIcon
+{
+    margin-right: 0.5rem;
+    color: rgba(0, 0, 0, 0.548);
+}
+
+
+/*****************************Show Section *********************************************/
+.showSection_Container
+{
+    position: relative;
+    width: 70%;
+    height: fit-content;
+    background: white;
+    padding: 2rem;
+    overflow: scroll;
+    padding-top: 3rem;
+}
+.showSection-header
+{
+    display: flex;
+}
+
+
+/******************************** Common *******************************************/
+.extraWidthModal
+{
+    max-height: 60vh;
+    overflow: scroll;
+}
+.extraWideWidthModal
+{
+    max-height: 60vh;
+    overflow: scroll;
+}
+
+.assignStudent-header
+{
+    display: flex;
+}
+.assignStudent-filters
+{
+    display: flex;
+    margin-left: auto;
+}
+
+.assignStudent-batchFilter
+{
+    display: flex;
+    align-items: center;
+    border: 1px solid rgba(0, 0, 0, 0.247);
+    padding: 0 0.5rem;
+    max-width: 100%;
+    margin-right: 8px;
+}
+
+.assignStudent-batchFilter input
+{
+    margin: 0;
+    padding: 0 0.25rem;
+    outline: none;
+    font-size: 0.8rem;
+    border: none;
+    width: 7rem;
+}
+.batchTag
+{
+    background: rebeccapurple;
+    padding: 0.25rem 0.5rem ;
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+    margin-right: 5px;
+}
+
+.showStudentsAssignment
+{
+    max-height: 40vh;
+}
+.showTeacherAssignment
+{
+    max-height: 40vh;
+}
+
+.addBtn
+{
+    background: rebeccapurple;
+    border-radius: 5px;
+    padding: 0.5rem 1rem;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    float: right;
+    margin: 1rem 0;
+    font-weight: bold;
+    color: white;
+}
+
+.clearFilters_btn
+{
+    background: rebeccapurple;
+    padding: 0 0.7rem;
+    border: none;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}

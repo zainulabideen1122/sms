@@ -1,0 +1,23 @@
+*{
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+}
+.grid-container {
+    display: grid;
+    grid-template-columns: 20% 1fr; /* 30% for side navbar, 1fr for main content */
+    grid-template-rows: 100vh; /* full height */
+    grid-template-areas: "sidenav main";
+  }
+  
+  .side-navbar {
+    grid-area: sidenav;
+    background-color: #f0f0f0; /* optional */
+    padding: 20px;
+    overflow: scroll;
+  }
+  
+  .main-content {
+    grid-area: main;
+    overflow: scroll;
+  }

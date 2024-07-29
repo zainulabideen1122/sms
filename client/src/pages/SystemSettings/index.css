@@ -1,0 +1,16 @@
+.showPermissionBtn
+{
+    text-decoration: none;
+    color: rebeccapurple;
+    cursor: pointer;
+}
+
+.showPermissionBtn:hover
+{
+    text-decoration: underline;
+}
+
+.table-deleteBtn:hover
+{
+    cursor: pointer;
+}

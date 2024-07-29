@@ -1,0 +1,38 @@
+.btnStyle
+{
+    border: none;
+    background: rebeccapurple;
+    color: white;
+    padding: 0.4rem 0.8rem;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.sectionsToggle
+{
+    color: rebeccapurple;
+}
+
+.sectionsToggle:hover
+{
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.underlineText
+{
+    text-decoration: underline;
+}
+.flexDisplay
+{
+    display: flex;
+    justify-content: center;
+}
+
+
+/************************************* Teacher Assignment *************************************************/
+.teacherAssignment-header
+{
+    margin: 3rem 3rem 2rem;
+}

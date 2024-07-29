@@ -1,0 +1,87 @@
+*
+{
+    margin: 0;
+    padding: 0;
+    overflow: auto;
+}
+
+/* ****************** LOGIN PAGE CSS ****************************** */
+.loginPage
+{
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #8BC6EC;
+    background-image: linear-gradient(135deg, #8BC6EC 0%, #9599E2 100%);
+    margin-top: 0;
+}
+.loginDiv{
+    width: 32.5%;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    color: white;
+    background-color: #2d3436;
+    padding: 7rem 0 8rem;
+    box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.413);
+}
+
+.loginDiv h1
+{
+    letter-spacing: 3px;
+    font-size: 3rem;
+    padding-bottom: 0.5rem;
+}
+.loginDiv p{
+    color: rgba(255, 255, 255, 0.600);
+    padding: 0.7rem 0;
+}
+
+.loginDiv input{
+    width: 60%;
+    margin: 0.3rem 0;
+    margin-left: 20%;
+    padding: 0.6rem;
+    border: 2px solid #3498dba9;
+    outline: none;
+    background: #2d3436;
+    color: white;
+}
+
+.loginDiv input::placeholder
+{
+    color: #dfe6e9;
+}
+
+.loginButtons{
+    margin-left: 1rem;
+}
+.loginButtons button
+{
+    border: none;
+    margin: 0 0.5rem;
+    width: 25%;
+    padding: 0.6rem 0;
+    cursor: pointer;
+    background-color: #2d3436;
+    color: white;
+    border: 2px solid rgba(255, 255, 255, 0.527);
+}
+.nameInput
+{
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+}
+.lastName{
+    transform: translateX(-4.8rem);
+}
+
+.wrongCredentialsText
+{
+    color: rgb(210, 6, 6);
+    margin-top: 1rem;
+    font-weight: bold;
+}

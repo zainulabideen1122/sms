@@ -1,0 +1,94 @@
+/*************************************** Teacher managment page *******************************************/
+.teacherManagement-header
+{
+    display: flex;
+    flex-direction: row;
+    margin-top: 2rem;
+    padding: 0 2rem;
+}
+
+.teacherManagement-leftHeader
+{
+    margin-left: auto;
+    margin-right: 2rem;
+}
+
+.teacherManagement-leftHeader input, .teacherManagement-leftHeader select
+{
+    margin-right: 1rem;
+    padding: 0.5rem 1rem;
+    border: none;
+    outline: none;
+    background: #00000011;
+    border-radius: 5px;
+}
+
+.teacherManagement-leftHeader button
+{
+    border: none;
+    background-color: rebeccapurple;
+    padding: 0.5rem 1rem;
+    color: white;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.teacherManagement-content
+{
+    width: 90%;
+    height: max-content;
+    margin-left: 3%;
+    margin-top: 2rem;
+    padding: 1rem;
+}
+
+.teacherManagement-content table {
+    width: 100%;
+    height: 100%;
+    border-collapse: collapse;
+  }
+
+.teacherManagement-content table th{
+    text-align: left;
+    background-color: #f0f0f0;
+    border-bottom: 1px solid #ddd; 
+    padding: 1rem;
+  
+}
+
+.teacherManagement-content table  td{
+    padding: 1rem;
+    text-align: left; 
+}
+
+.teacherManagement-content table tr
+{
+    border-bottom: 1px solid #ddd;
+}
+.teacherManagement-content table tr a
+{
+    text-decoration: none;
+    color: rebeccapurple;
+}
+.teacherManagement-content table tr a:hover
+{
+    text-decoration: underline;
+    color: rgb(71, 29, 114);
+}
+
+.table-btns span
+{
+    cursor: pointer;
+    color: rebeccapurple;
+}
+
+.table-editBtn:hover
+{
+    color: green;
+}
+
+.table-deleteBtn:hover
+{
+    color: red;
+}
