@@ -11,8 +11,12 @@ import Roles from './pages/SystemSettings/Roles';
 import ManageRoles from './components/Modal/manageRole';
 import { useState } from 'react';
 import Courses from './pages/courseManagment/courses';
+import NotFound from './components/404';
+import { jwtDecode } from 'jwt-decode';
 
 function App() {
+  const user = jwtDecode(localStorage.getItem('token'))
+  console.log(user)
   return (
     <Router>
       <AppContent/>
@@ -33,6 +37,7 @@ function AppContent(){
         {!showNav && <SideNavbar className={`${!showNav ? 'side-navbar':''}`} />}
         <div className={`${!showNav ? 'main-content':''}`}>
           <Routes>
+
             <Route path='/' Component={Home}/>
             <Route path='/auth/login' Component={Login}/>
             <Route path='/userManagement/teacher' Component={TeacherManagement}/>
@@ -41,6 +46,7 @@ function AppContent(){
             <Route path='/systemSettings/roles' Component={Roles} />
             <Route path='/systemSettings/roleManagement/:id' element={<ManageRoles selectedUser={selectedUser} />}/>
             <Route path='/courseManagement/courses' Component={Courses}/>
+            <Route path="*" Component={NotFound}/>
           </Routes>
         </div>
       </div>

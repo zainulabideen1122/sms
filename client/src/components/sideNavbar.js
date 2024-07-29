@@ -7,6 +7,7 @@ import { Link, useLocation } from "react-router-dom";
 import { MdDashboard } from "react-icons/md";
 import HOC from "../utils/hoc";
 
+
 function SideNavbar() {
     const location = useLocation().pathname;
     const [expandedLinks, setExpandedLinks] = useState({
@@ -30,16 +31,28 @@ function SideNavbar() {
         <>
             <div className="sideNavbar">
                 <ul className="sidebar-mainList ">
+                    <HOC isFor={['Admin', 'Teacher', 'Student']}>
                     <Link to='/'>
                         <li className={`sidebar-mainLi ${is('/') ? 'activeLink':''}`}>
                             <div className="sidebar-mainLi">
                             <MdDashboard size={25}/>
                             <p>
-                                Dashboard
+                            <li>
+                        <div className="sidebar-mainLi">
+                            <TbReportSearch size={25} />
+                            <p>Reports</p>
+                        </div>
+                    </li><li>
+                        <div className="sidebar-mainLi">
+                            <TbReportSearch size={25} />
+                            <p>Reports</p>
+                        </div>
+                    </li>oard
                             </p>
-                            </div> 
+                            </div>
                     </li>
                     </Link>
+                    </HOC>
                     <HOC isFor={["Admin"]}>
                         <li onClick={()=>handleSideMainLinks('userManagment')}>
                                 <div className="sidebar-mainLi">
@@ -64,6 +77,7 @@ function SideNavbar() {
                         </Link>   
                         </ul>  
                     } </HOC>
+                    <HOC isFor={['Admin']}>
                     <li className="sidebar-mainLi" onClick={()=>handleSideMainLinks('courseManagment')}>
                         <div className="sidebar-mainLi">
                            <FaBookReader size={25}/>
@@ -81,7 +95,8 @@ function SideNavbar() {
                         </Link>
                         </ul>  
                     }
-                    
+                    </HOC>
+                    <HOC isFor={['Admin']}>
                     <li onClick={()=>handleSideMainLinks('systemSettings')}>
                         <div className="sidebar-mainLi">
                             <IoSettingsSharp size={25}/>
@@ -104,13 +119,16 @@ function SideNavbar() {
                                 </li>  
                             </Link>
                         </ul>  
-                    } 
+                    }
+                    </HOC> 
+                    <HOC isFor={['Admin', 'Teacher', 'Student']}>
                     <li>
                         <div className="sidebar-mainLi">
                             <TbReportSearch size={25} />
                             <p>Reports</p>
                         </div>
                     </li>
+                    </HOC>
                 </ul>
             </div>
         </>

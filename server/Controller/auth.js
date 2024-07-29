@@ -1,25 +1,26 @@
 const connection = require('../config/db')
 const jwt = require('jsonwebtoken')
-const parseObject = require('../utils/parseObject')
+const parseObject = require('../utils/parseObject');
+const db = require('../models');
 
 const Login = async(req, res)=>{
     const {email, password} = req.body;
-    const query = "SELECT NAME, EMAIL, PASSWORD FROM USER WHERE EMAIL = ? AND PASSWORD = ?"
-    await connection.query(query, [email, password], function(err, results){
-        if (err) res.send(err);
-
-        if(results.length > 0)
-        {
-            const newResult = parseObject(results[0])
-            const token = jwt.sign({name:newResult.NAME, email:newResult.EMAIL, password:newResult.PASSWORD, role : "Admin"}, process.env.SECRET_KEY, { expiresIn: '1h' })
-            console.log(token)
-            res.send({token})
-        }
-        else
-        {
-            res.status(400).json({message:"Wrong email or password!"})
+    const user = await db.User.findOne({
+        where : {EMAIL:email, PASSWORD : password},
+        include : {
+            model : db.Role
         }
     })
+
+    if(!user)
+    {
+        res.status(500).json({msg:"Wrong email or password!"})
+    }else
+    {
+        const token = jwt.sign({name:user.NAME, email:user.EMAIL, role : user.Roles[0]?user.Roles[0].NAME : ''}, process.env.SECRET_KEY, { expiresIn: '1h' })
+        console.log(token)
+        res.send({token})
+    }
 }
 
 

@@ -1,6 +1,8 @@
-function HOC({children, isFor}) {
-    const role = "Admin"
-    
+import { jwtDecode } from "jwt-decode";
+
+function HOC({isFor, children}) {
+    const role = jwtDecode(localStorage.getItem('token')).role
+
     if(isFor.includes(role))
     {
         return children
