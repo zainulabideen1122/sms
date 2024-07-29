@@ -5,6 +5,7 @@ import { IoSettingsSharp } from "react-icons/io5";
 import { TbReportSearch } from "react-icons/tb";
 import { Link, useLocation } from "react-router-dom";
 import { MdDashboard } from "react-icons/md";
+
 import HOC from "../utils/hoc";
 
 
@@ -13,7 +14,8 @@ function SideNavbar() {
     const [expandedLinks, setExpandedLinks] = useState({
         userManagment : false,
         courseManagment : false,
-        systemSettings : false
+        systemSettings : false,
+        academic : false
     })
     console.log(location)
     const handleSideMainLinks = (linkName)=>{
@@ -32,26 +34,40 @@ function SideNavbar() {
             <div className="sideNavbar">
                 <ul className="sidebar-mainList ">
                     <HOC isFor={['Admin', 'Teacher', 'Student']}>
-                    <Link to='/'>
-                        <li className={`sidebar-mainLi ${is('/') ? 'activeLink':''}`}>
-                            <div className="sidebar-mainLi">
-                            <MdDashboard size={25}/>
-                            <p>
-                            <li>
-                        <div className="sidebar-mainLi">
-                            <TbReportSearch size={25} />
-                            <p>Reports</p>
-                        </div>
-                    </li><li>
-                        <div className="sidebar-mainLi">
-                            <TbReportSearch size={25} />
-                            <p>Reports</p>
-                        </div>
-                    </li>oard
-                            </p>
-                            </div>
-                    </li>
-                    </Link>
+                        <Link to='/'>
+                            <li className={`sidebar-mainLi ${is('/') ? 'activeLink':''}`}>
+                                <div className="sidebar-mainLi">
+                                <MdDashboard size={25}/>
+                                <p>
+                                    Dashboard
+                                </p>
+                                </div>
+                        </li>
+                        </Link>
+                    </HOC>
+                    <HOC isFor={['Teacher']}>
+                        <li onClick={()=>handleSideMainLinks('academic')}>
+                                <div className="sidebar-mainLi">
+                                    <FaUser size={25}/>
+                                    <p>Academic</p>
+                                    <span className="mainList-rightArrow">
+                                        <FaArrowRight className={`${expandedLinks.academic ? 'rotated_icon':'arrowExtraTransition'}`}/>
+                                    </span> 
+                                </div>
+                        </li>
+                        {expandedLinks.academic && <ul className="sidebar-subList">
+                        <Link to='/academic/marks'>
+                            <li className={`${is('/academic/marks') ? 'activeLink':''}`}>
+                                Marks
+                            </li>
+                        </Link> 
+                        <Link to='/academic/attendance'>
+                            <li className={`${is('/academic/attendance') ? 'activeLink':''}`}>
+                                Attendance
+                            </li>
+                        </Link> 
+                        </ul>  
+                        }
                     </HOC>
                     <HOC isFor={["Admin"]}>
                         <li onClick={()=>handleSideMainLinks('userManagment')}>

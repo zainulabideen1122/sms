@@ -13,6 +13,7 @@ import { useState } from 'react';
 import Courses from './pages/courseManagment/courses';
 import NotFound from './components/404';
 import { jwtDecode } from 'jwt-decode';
+import Academic from './pages/teacher/Academic';
 
 function App() {
   const user = jwtDecode(localStorage.getItem('token'))
@@ -47,6 +48,9 @@ function AppContent(){
             <Route path='/systemSettings/roleManagement/:id' element={<ManageRoles selectedUser={selectedUser} />}/>
             <Route path='/courseManagement/courses' Component={Courses}/>
             <Route path="*" Component={NotFound}/>
+
+            {/* teachers */}
+            <Route path='/academic' Component={Academic} />
           </Routes>
         </div>
       </div>
