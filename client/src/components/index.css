@@ -390,3 +390,51 @@ ul.sidebar-subList li
     font-weight: bold;
     cursor: pointer;
 }
+
+
+/************************************* 404 Page******************************************/
+.headi {
+    font-size: 9rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    display: flex-inline;
+    text-align: center;
+}
+
+.error-404 {
+    color: rgb(0, 0, 0);
+}
+
+.no-fav {
+    font-size: 25px;
+    color: #666;
+}
+
+.text-center {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+#img-error {
+    margin-top: 10px;
+    margin-right: 20px;
+    width: 30rem;   
+}
+
+/********************************** create attendance ******************************************/
+/* .calender
+{
+    width: 50%;
+    height: 30vh;
+    float: right;
+} */
+
+.attendanceChoices
+{
+    padding: 5px 15px;
+    border: none;
+    cursor: pointer;
+}

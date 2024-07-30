@@ -15,6 +15,8 @@ router.post('/addTeacher', teacherRouter.addTeacher)
 router.post('/editTeacher/:id', teacherRouter.updateTeacher)
 router.post('/addTeacherToSection', teacherRouter.addTeacherToSection)
 router.get('/unAssignTeacherFromSection/:id', teacherRouter.unAssignTeacher)
+router.post('/getTeacherCoursesAndSections', teacherRouter.getTeacherCoursesAndSections)
+router.post('/getAttendanceList', teacherRouter.getAttendanceList)
 
 // student routers
 router.get('/getAllStudents', studentRouter.getAllStudents)

@@ -13,11 +13,11 @@ import { useState } from 'react';
 import Courses from './pages/courseManagment/courses';
 import NotFound from './components/404';
 import { jwtDecode } from 'jwt-decode';
-import Academic from './pages/teacher/Academic';
+import Attendance from './pages/teacher/Academic/attendance';
 
 function App() {
-  const user = jwtDecode(localStorage.getItem('token'))
-  console.log(user)
+  // const user = localStorage.getItem('token') ? jwtDecode(localStorage.getItem('token')) : ''
+  // console.log(user)
   return (
     <Router>
       <AppContent/>
@@ -50,7 +50,7 @@ function AppContent(){
             <Route path="*" Component={NotFound}/>
 
             {/* teachers */}
-            <Route path='/academic' Component={Academic} />
+            <Route path='/academic/attendance' Component={Attendance} />
           </Routes>
         </div>
       </div>

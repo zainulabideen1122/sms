@@ -1,7 +1,7 @@
 import { jwtDecode } from "jwt-decode";
 
 function HOC({isFor, children}) {
-    const role = jwtDecode(localStorage.getItem('token')).role
+    const role = localStorage.getItem('token') ? jwtDecode(localStorage.getItem('token')).role : ''
 
     if(isFor.includes(role))
     {

@@ -5,6 +5,7 @@ const authRouter = require('./Routes/auth')
 const userRouter = require('./Routes/user')
 const settingsRouter = require('./Routes/roles')
 const courseRouter = require('./Routes/course')
+const attendanceRouter = require('./Routes/academic')
 const cors = require('cors')
 const authMiddleware = require('./middleware/auth')
 const {getAllPermissions, getUserPermissions} = require('./utils/Permissions')
@@ -21,7 +22,7 @@ app.use('/auth', authRouter)
 app.use('/user',authMiddleware, userRouter)
 app.use('/settings', authMiddleware, settingsRouter)
 app.use('/courses', authMiddleware, courseRouter)
-
+app.use('/academic', authMiddleware, attendanceRouter)
 app.post('/protected', authMiddleware,(req, res)=>{
 
     res.send("Wellcome to the protected route!")

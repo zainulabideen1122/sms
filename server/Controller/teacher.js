@@ -1,3 +1,4 @@
+const { where } = require('sequelize')
 const db = require('../models')
 
 const Teacher = db.Teacher
@@ -193,6 +194,44 @@ const unAssignTeacher = async(req, res)=>{
     }
 }
 
+const getTeacherCoursesAndSections = async(req, res)=>{
+    const {teacherEmail} = req.body
+    const teacher = await db.Teacher.findOne({
+        include:[{
+            model : db.User,
+            where : {EMAIL : teacherEmail}
+        },
+        {
+            model : db.Section,
+            include : {
+                model : db.Course
+            }
+        }
+        ]
+    })
+
+    res.status(200).json(teacher)
+}
+
+
+const getAttendanceList = async(req,res)=>{
+    const course = req.body
+    console.log(course)
+    const students = await db.Section.findAll({
+        where : {ID:course.section.id, COURSE_ID : course.id},
+        include:{
+            model : db.Student,
+            include : {
+                model : db.User,
+                attributes :['NAME', 'EMAIL']
+            }
+        },
+        attributes : []
+    })
+
+    res.status(200).json(students)
+}
+
 module.exports = {
-    addTeacher, getAllTeachers, getTeacher, updateTeacher, deleteTeacher, addTeacherToSection, unAssignTeacher
+    addTeacher, getAllTeachers, getTeacher, updateTeacher, deleteTeacher, addTeacherToSection, unAssignTeacher, getTeacherCoursesAndSections, getAttendanceList
 }
