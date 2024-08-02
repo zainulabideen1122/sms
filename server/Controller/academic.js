@@ -127,6 +127,48 @@ const addStudentMarks = async(req, res)=>{
     res.status(200)
 }
 
+
+const updateStudentMarksSection = async(req,res)=>{
+    const body = req.body
+    console.log(body)
+    const section = await db.Mark.findOne({
+        where : {STUDENT_ID : body.studentID, SECTION_ID : body.sectionID}
+    })
+
+   
+        const updated_marks_data = Object.entries(section.MARKS_DATA).reduce((acc, [key, value]) => {
+            if(body.prevName !== body.new.name)
+            {
+                const new_key = key === body.prevName ? body.new.name : key;
+                acc[new_key] = value;
+                if(new_key==body.new.name)
+                {
+                    acc[new_key] = {...value, percentage: body.new.percentage}
+                }
+            }
+            else{
+                acc[key] = value;
+                if(key==body.prevName)
+                {
+                    acc[key] = {...value, percentage: body.new.percentage}
+                }
+            }
+                
+            return acc;
+          }, {});
+        section.MARKS_DATA = updated_marks_data
+        await section.save()
+
+        const data = await db.Mark.findOne({
+            where : {
+                STUDENT_ID : body.studentID,
+                SECTION_ID : body.sectionID
+            }
+        })
+
+    res.status(200).json(data)
+}
+
 module.exports = {
-    markStudentsAttendance, getStudentsAttendance,getStudentsMarksList, getStudentMarks, addStudentMarks
+    markStudentsAttendance, getStudentsAttendance,getStudentsMarksList, getStudentMarks, addStudentMarks, updateStudentMarksSection
 }

@@ -18,7 +18,7 @@ function ManageStudentMarks({show, close, student}) {
 
     const jwtToken = localStorage.getItem('token')
 
-
+    console.log(student)
     const handleSetSection = (obj)=>{
         //console.log(name)
         const {name, percentage} = obj
@@ -32,6 +32,7 @@ function ManageStudentMarks({show, close, student}) {
     }
     function toggleSectionName(){
         setSectionNameModal(!sectionNameModal)
+        
     }
     function toggleSectionMarks(){
         setSectionMarksModal(!sectionMarksModal)
@@ -142,7 +143,7 @@ function ManageStudentMarks({show, close, student}) {
             <div className="assignStudent-header">
                 <h1>{student.User && student.User.NAME} Marks</h1>
                 <span className="teacherManagement-leftHeader">
-                    <button className="btnStyle" onClick={()=>setSectionNameModal(true)}>Add New Section</button>
+                    <button className="btnStyle" onClick={()=>{setSelectedAction('addSection');setSectionNameModal(true)}}>Add New Section</button>
                 </span>
             </div>
             <div className="teacherManagement-content">
@@ -150,7 +151,12 @@ function ManageStudentMarks({show, close, student}) {
                 {Object.keys(studentData).length > 0 && Object.keys(studentData).map(section=>{
                     return(
                         <div style={{display:'flex',flexDirection:'column'}} key={section}>
-                        <button onClick={()=>{setSelectedAction('addMarks');setSectionMarksModal(true); setSelecetedSection({key: section, value: studentData[section]})}} className="btnStyle" style={{width:'25%', marginLeft:'auto', marginTop: '1rem'}}>Add {section} marks</button>
+                        <span className="marksSectionBtns">
+                            <button onClick={()=>{setSelectedAction('addMarks');setSectionMarksModal(true);setSelectedAction('addSection');setSelecetedSection({key: section, value: studentData[section]})}} className="btnStyle" style={{width:'100%'}}>Add {section} marks</button>
+                            <span className="table-editBtn" style={{cursor:'pointer'}}>
+                                <MdEdit size={25} onClick={()=>{setSectionNameModal(true);setSelecetedSection({ secId:student.SectionStudent.SECTION_ID, studentId:student.ID , key: section, value: studentData[section]}); setSelectedAction('editSection')}} />
+                            </span>
+                        </span>
                         <fieldset className="marksFieldSet">
                             <legend>{section}:  (Total Marks: {studentData[section].percentage}) </legend>
                             {studentData[section].marks.length <= 0 ? <h1 style={{textAlign:'center', padding:'1rem 1rem 1.5rem'}}>No data to show</h1> :
@@ -181,7 +187,7 @@ function ManageStudentMarks({show, close, student}) {
                 })}
                 <button onClick={handleSaveMarks} disabled={isDisabled} className="addBtn" style={isDisabled?{background:'gray'} : {}}>Save</button>
             </div>
-            <AssignmentSection show={sectionNameModal} close={toggleSectionName} setSection={handleSetSection}/>
+            <AssignmentSection show={sectionNameModal} close={toggleSectionName} setSection={handleSetSection} selectedSecion={selectedSection} action={selectedAction} setUpdatedData={setStudentData} setInitial={setInitialStudentData}/>
             <AssignmentMarks show={sectionMarksModal} close={toggleSectionMarks} section={selectedSection} allSections={studentData} setSection={setStudentData} action={selectedAction} markId={selectedMarkId}/>
         </Modal>
         </div>

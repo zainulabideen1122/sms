@@ -12,5 +12,6 @@ router.post('/getStudentMarks', marksController.getStudentMarks)
 router.post('/addStudentMarks', marksController.addStudentMarks)
 router.post('/addMarks', marksController.getStudentsMarksList)
 router.post('/updateMarks', marksController.getStudentsMarksList)
+router.post('/updateMarksSection', marksController.updateStudentMarksSection)
 
 module.exports = router
