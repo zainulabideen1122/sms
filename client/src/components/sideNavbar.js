@@ -56,9 +56,9 @@ function SideNavbar() {
                                 </div>
                         </li>
                         {expandedLinks.academic && <ul className="sidebar-subList">
-                        <Link to='/academic/marks'>
-                            <li className={`${is('/academic/marks') ? 'activeLink':''}`}>
-                                Marks
+                        <Link to='/academic/marksManagment'>
+                            <li className={`${is('/academic/marksManagment') ? 'activeLink':''}`}>
+                                Marks Managment
                             </li>
                         </Link> 
                         <Link to='/academic/attendance'>

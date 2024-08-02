@@ -3,71 +3,44 @@ import './index.css'
 import { jwtDecode } from 'jwt-decode';
 import axios from 'axios';
 import CreateAttendance from '../../../components/Modal/createAttendance';
+import Table from '../../../components/Common/Table';
+import GetTeacherCourseSec from './common/getTeacherCourseSec';
 
 function Attendance() {
     const userEmail = jwtDecode(localStorage.getItem('token')).email
-    const [courses, setCourses] = useState([])
-    const [selectedCourse, setSelectedCourse] = useState({})
     const [sendCourse, setSendCourse] = useState({})
     const jwtToken = localStorage.getItem('token')
     const [createAttendanceModal, setCreateAttendanceModal] = useState(false)
     const [students, setStudents] = useState([])
+    const [studentsAttendance, setStudentsAttendance] = useState([])
 
     function toggleAttendanceModal(){
         setCreateAttendanceModal(!createAttendanceModal)
     }
 
-    useEffect(()=>{
-        const data = {teacherEmail : userEmail}
-        axios.post('http://localhost:5000/user/getTeacherCoursesAndSections', data,{
-            headers : {
-                'token' : jwtToken
-            }
-        })
-        .then(res=>{
-            const courses = res.data.Sections.reduce((acc, section) => {
-                const existingCourse = acc.find((course) => course.id === section.Course.ID);
-                if (existingCourse) {
-                  existingCourse.sections.push({ id: section.ID, name: section.NAME });
-                } else {
-                  acc.push({
-                    id: section.Course.ID,
-                    name: section.Course.NAME,
-                    sections: [{ id: section.ID, name: section.NAME }],
-                  });
-                }
-                return acc;
-              }, []);
-
-            setCourses(courses)
-        })
-        .catch(err=>{
-            console.log(err)
-        })
-    }, [])
-
-    useEffect(()=>{
-        console.log(selectedCourse)
-    }, [selectedCourse])
-
-
-    const handleSelectedData = (e)=>{
-        if(selectedCourse && selectedCourse.sections)
+    const getStudentsAttendance = async(sectionID)=>{
+        //console
+        if(sectionID)
         {
-            const selectedSection = selectedCourse.sections.filter((section) => section.id === parseInt(e.target.value))[0];
-            setSendCourse({
-                id : selectedCourse.id,
-                name : selectedCourse.name,
-                section : selectedSection
+            axios.get(`http://localhost:5000/academic/getStudentsAttendance/${sectionID}`, {
+                headers : {
+                    'token' : jwtToken
+                }
+            })
+            .then(res=>{
+                console.log("student attendance=>> ", res.data)
+                setStudentsAttendance(res.data)
+            })
+            .catch(err=>{
+                //console.log()
             })
         }
     }
 
     useEffect(() => {
-        //console.log('seeeeeeeeeeeeeeeeeeeeeeeeeeending',sendCourse);
+        console.log(sendCourse)
         if(sendCourse && Object.keys(sendCourse).length > 0)
         {
-            console.log('seeeeeeeeeeeeeeeeeeeeeeeeeeending',sendCourse);
             axios.post('http://localhost:5000/user/getAttendanceList', sendCourse, {
                 headers : {
                     'token' : jwtToken
@@ -80,6 +53,8 @@ function Attendance() {
             .catch(err=>{
                 //console.log
             })
+
+            getStudentsAttendance(sendCourse.section.id)
         }
     }, [sendCourse]);
 
@@ -89,28 +64,27 @@ function Attendance() {
                 <div className="teacherManagement-header">
                     <h1>Attendance</h1>
                     <span className="teacherManagement-leftHeader">
-                        <select name="teacher_searchProperty" onChange={(e) => setSelectedCourse(courses.find((course) => course.id === parseInt(e.target.value)))}>
-                            <option>Course</option>
-                            {courses.map(course=>{
-                                return(
-                                    <option key={course.id} value={course.id}>{course.name}</option>
-                                )
-                            })}
-                        </select>
-                        <select name="teacher_searchProperty" onChange={handleSelectedData}>
-                            <option>Section</option>
-                            { selectedCourse && selectedCourse.sections !== undefined ? selectedCourse.sections.map(section=>{
-                                return(
-                                    <option key={section.id} value={section.id} >{section.name}</option>
-                                )
-                            }): ''}
-                        </select>
+                        <GetTeacherCourseSec setSendCourse={setSendCourse}/>
                         <button className='btnStyle' disabled={Object.keys(sendCourse).length <= 0} style={Object.keys(sendCourse).length <= 0?{background:'gray'}:{}}  onClick={()=>setCreateAttendanceModal(true)} >New Attendance</button>
                     </span>
                 </div>
 
-                <CreateAttendance show={createAttendanceModal} close={toggleAttendanceModal} students={students} sectionID={sendCourse.section ? sendCourse.section.id: null}/>
-
+                <div className="teacherManagement-content">
+                    <Table titles={['Sr.','Student Name',  ...Object.keys(studentsAttendance[0] ? studentsAttendance[0].ATTENDANCE_DATA : {}).slice(-4)]}>
+                        {studentsAttendance.map((attendance, idx)=>{
+                            return(
+                                <tr key={attendance.STUDENT_ID}>
+                                    <td>{idx+1}</td>
+                                    <td>{attendance.Student.User.NAME}</td>
+                                    {Object.keys(attendance.ATTENDANCE_DATA).slice(-4).map((date) => (
+                                        <td key={date} className={`${attendance.ATTENDANCE_DATA[date] == 'Present' ? 'greenText' : attendance.ATTENDANCE_DATA[date] == 'Absent' ? 'redText':''}`}>{attendance.ATTENDANCE_DATA[date]}</td>
+                                    ))}
+                                </tr>
+                            )
+                        })}
+                    </Table>
+                </div>
+                <CreateAttendance show={createAttendanceModal} close={toggleAttendanceModal} students={students} sectionID={sendCourse.section ? sendCourse.section.id: null} setStudentsAttendance={setStudentsAttendance} />
            </div>
         </>
      );

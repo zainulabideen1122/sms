@@ -2,3 +2,19 @@
 {
     background: #00000015;
 }
+.greenText
+{
+    color: green;
+    /* font-weight: bold; */
+}
+
+.redText
+{
+    color: red;
+    /* font-weight: bold; */
+}
+
+.boldText
+{
+    font-weight: bold;
+}

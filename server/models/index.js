@@ -36,6 +36,7 @@ db.Section = require('./section')(sequalize, DataTypes)
 db.Course = require('./course')(sequalize, DataTypes)
 db.StudentSection = require('./studentSection')(sequalize, DataTypes)
 db.Attendance = require('./attendance')(sequalize, DataTypes)
+db.Mark = require('./marks')(sequalize, DataTypes)
 
 db.User.hasOne(db.Teacher, { foreignKey: 'USER_ID' });
 db.Teacher.belongsTo(db.User, { foreignKey: 'USER_ID' });
@@ -64,6 +65,13 @@ db.Attendance.belongsTo(db.Student, {foreignKey:'STUDENT_ID'})
 
 db.Section.hasMany(db.Attendance, {foreignKey:'SECTION_ID'})
 db.Attendance.belongsTo(db.Section, {foreignKey:'SECTION_ID'})
+
+
+db.Student.hasOne(db.Mark, {foreignKey:'STUDENT_ID'})
+db.Mark.belongsTo(db.Student, {foreignKey:'STUDENT_ID'})
+
+db.Section.hasMany(db.Mark, {foreignKey:'SECTION_ID'})
+db.Mark.belongsTo(db.Section, {foreignKey:'SECTION_ID'})
 
 db.sequalize.sync({force:false})
 .then(()=>{

@@ -141,6 +141,7 @@ ul.sidebar-subList li
     padding: 2rem;
     overflow: scroll;
     padding-top: 3rem;
+    max-height: 80vh;
 }
 
 
@@ -437,4 +438,17 @@ ul.sidebar-subList li
     padding: 5px 15px;
     border: none;
     cursor: pointer;
+}
+
+
+/**************************************** manage student marks ***********************************************/
+.testingZ
+{
+    max-height: 80vh;
+    overflow: scroll;
+}
+
+.marksFieldSet
+{
+    padding: 1rem;
 }

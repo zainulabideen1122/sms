@@ -14,6 +14,7 @@ import Courses from './pages/courseManagment/courses';
 import NotFound from './components/404';
 import { jwtDecode } from 'jwt-decode';
 import Attendance from './pages/teacher/Academic/attendance';
+import MarksManagement from './pages/teacher/Academic/marks';
 
 function App() {
   // const user = localStorage.getItem('token') ? jwtDecode(localStorage.getItem('token')) : ''
@@ -51,6 +52,7 @@ function AppContent(){
 
             {/* teachers */}
             <Route path='/academic/attendance' Component={Attendance} />
+            <Route path='/academic/marksManagment' Component={MarksManagement}/>
           </Routes>
         </div>
       </div>

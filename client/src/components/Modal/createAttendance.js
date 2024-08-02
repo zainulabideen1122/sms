@@ -7,16 +7,21 @@ import "react-datepicker/dist/react-datepicker.css";
 import axios from 'axios';
 
 
-function CreateAttendance({show, close, students, sectionID}) {
+function CreateAttendance({show, close, students, sectionID, updateData}) {
     const [startDate, setStartDate] = useState(new Date())
     const [studentsAttendance, setStudentsAttendance] = useState({})
     const jwtToken = localStorage.getItem('token')
-    useEffect(()=>{
+    
+    const fillStudentDefaultAttendance = ()=>{
         const initial = {};
         students.forEach(student=>{
             initial[student.ID] = 'Present'
         })
         setStudentsAttendance(initial)
+    }
+
+    useEffect(()=>{
+        fillStudentDefaultAttendance()
 
     }, [students])
 
@@ -38,11 +43,14 @@ function CreateAttendance({show, close, students, sectionID}) {
             }
         })
         .then(res=>{
-            //console.log()
+            console.log(res.data)
+            updateData(res.data)
         })
         .catch(err=>{
-            //console.log()
+            console.log(err)
         })
+        fillStudentDefaultAttendance()
+        close()
     }
 
     return ( 

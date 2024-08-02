@@ -15,7 +15,6 @@ function StudentManagement() {
     const [isEditModal, setIsEditModal] = useState(false)
     const jwtToken = localStorage.getItem('token')
     useEffect(()=>{
-        // setState((st)=>({...st, teacher:['Ahmed', 'Zain']}))
         axios.get('http://localhost:5000/user/getAllStudents',{
             headers: {
                 'token': `${jwtToken}`
