@@ -5,6 +5,8 @@ import { IoSettingsSharp } from "react-icons/io5";
 import { TbReportSearch } from "react-icons/tb";
 import { Link, useLocation } from "react-router-dom";
 import { MdDashboard } from "react-icons/md";
+import { PiNotepadBold } from "react-icons/pi";
+import { MdNoteAlt } from "react-icons/md";
 
 import HOC from "../utils/hoc";
 
@@ -68,6 +70,24 @@ function SideNavbar() {
                         </Link> 
                         </ul>  
                         }
+                    </HOC>
+                    <HOC isFor={["Student"]}>
+                        <Link to='/Student/attendance'>
+                            <li className={`${is('/Student/attendance') ? 'activeLink':''}`}>
+                                <div className="sidebar-mainLi">
+                                    <PiNotepadBold size={25} />
+                                    <p>Attendance</p>
+                                 </div>
+                            </li> 
+                        </Link>
+                        <Link to='/Student/StudentMarks'>
+                            <li className={`${is('/Student/StudentMarks') ? 'activeLink':''}`}>
+                                <div className="sidebar-mainLi">
+                                    <MdNoteAlt size={25} />
+                                    <p>Marks</p>
+                                </div>
+                            </li> 
+                        </Link>
                     </HOC>
                     <HOC isFor={["Admin"]}>
                         <li onClick={()=>handleSideMainLinks('userManagment')}>

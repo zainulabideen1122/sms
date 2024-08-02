@@ -15,6 +15,8 @@ import NotFound from './components/404';
 import { jwtDecode } from 'jwt-decode';
 import Attendance from './pages/teacher/Academic/attendance';
 import MarksManagement from './pages/teacher/Academic/marks';
+import StudentMarks from './pages/student/marks';
+import StudentAttendance from './pages/student/attendance';
 
 function App() {
   // const user = localStorage.getItem('token') ? jwtDecode(localStorage.getItem('token')) : ''
@@ -53,6 +55,11 @@ function AppContent(){
             {/* teachers */}
             <Route path='/academic/attendance' Component={Attendance} />
             <Route path='/academic/marksManagment' Component={MarksManagement}/>
+
+            {/* Students */}
+            <Route path='/Student/attendance' Component={StudentAttendance}/>
+            <Route path='/Student/StudentMarks' Component={StudentMarks}/>
+
           </Routes>
         </div>
       </div>

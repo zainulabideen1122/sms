@@ -207,7 +207,32 @@ const unrollStudenFromSection = async (req, res)=>{
     res.status(200).json(updated)
 }
 
+const getStudentCoursesAndSections = async(req, res)=>{
+    const {studentEmail} = req.body
+    const teacher = await db.Student.findOne({
+        include:[{
+            model : db.User,
+            where : {EMAIL : studentEmail}
+        },
+        {
+            model : db.Section,
+            include : {
+                model : db.Course
+            }
+        }
+        ]
+    })
+    res.status(200).json(teacher)
+}
 
 module.exports = {
-    addStudent, getAllStudents, getStudent, updateStudent, deleteStudent, addStudentToCourseSection, addStudentsToCourseSection, unrollStudenFromSection
+    addStudent,
+    getAllStudents, 
+    getStudent, 
+    updateStudent, 
+    deleteStudent, 
+    addStudentToCourseSection, 
+    addStudentsToCourseSection, 
+    unrollStudenFromSection,
+    getStudentCoursesAndSections
 }

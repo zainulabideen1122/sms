@@ -26,5 +26,7 @@ router.post('/editStudent/:id', studentRouter.updateStudent)
 router.post('/addStudentToSection', studentRouter.addStudentToCourseSection)
 router.post('/addStudentsToSection', studentRouter.addStudentsToCourseSection)
 router.post('/unrollStudenFromSection', studentRouter.unrollStudenFromSection)
+router.post('/getStudentCoursesAndSections', studentRouter.getStudentCoursesAndSections)
+
 
 module.exports = router;
