@@ -1,4 +1,3 @@
-const { where } = require('sequelize');
 const db = require('../models')
 
 
@@ -81,7 +80,7 @@ const getStudentsMarksList = async(req, res)=>{
 
 }
 
-const getStudentMarks = async(req, res)=>{
+const getStudentDetails = async(req, res)=>{
     const {sectionID, studentID} = req.body
     console.log(sectionID, studentID)
     const s = await db.Mark.findOne({
@@ -169,6 +168,25 @@ const updateStudentMarksSection = async(req,res)=>{
     res.status(200).json(data)
 }
 
+const getStudentMarks = async(req, res)=>{
+    const {sectionID, studentID} = req.body
+
+    const data = await db.Mark.findOne({
+        where:{
+            SECTION_ID : sectionID,
+            STUDENT_ID : studentID
+        }
+    })
+
+    res.status(200).json(data)
+}
+
 module.exports = {
-    markStudentsAttendance, getStudentsAttendance,getStudentsMarksList, getStudentMarks, addStudentMarks, updateStudentMarksSection
+    markStudentsAttendance,
+    getStudentsAttendance,
+    getStudentsMarksList, 
+    getStudentDetails, 
+    addStudentMarks, 
+    updateStudentMarksSection,
+    getStudentMarks
 }

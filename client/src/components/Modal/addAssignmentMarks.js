@@ -43,20 +43,20 @@ function AssignmentMarks({show, close, section,allSections, setSection, action, 
         
         if(action == 'addMarks')
         {
-            const id = allSections[section.key].marks.length
+            let id = allSections[section.key].marks.length
             if(id == 0)
             {
                 id = 1
             }else{
-                console.log(section.value.marks[id-1])
+                id = section.value.marks[id-1].id+1
             }
-            // setSection({
-            //     ...allSections,
-            //     [section.key]: {
-            //       ...section.value,
-            //       marks: [...section.value.marks, Object.assign({id:id},studentMarks)]
-            //     }
-            //   })
+            setSection({
+                ...allSections,
+                [section.key]: {
+                  ...section.value,
+                  marks: [...section.value.marks, Object.assign({id:id},studentMarks)]
+                }
+              })
         }
         else if(action == 'editMarks')
         {
@@ -73,7 +73,7 @@ function AssignmentMarks({show, close, section,allSections, setSection, action, 
               })
         }
 
-        console.log(allSections[section.key].marks.length)
+        //console.log(allSections[section.key].marks.length)
         clearForm()
         close()
     }

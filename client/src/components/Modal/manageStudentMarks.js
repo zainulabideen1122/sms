@@ -152,7 +152,7 @@ function ManageStudentMarks({show, close, student}) {
                     return(
                         <div style={{display:'flex',flexDirection:'column'}} key={section}>
                         <span className="marksSectionBtns">
-                            <button onClick={()=>{setSelectedAction('addMarks');setSectionMarksModal(true);setSelectedAction('addSection');setSelecetedSection({key: section, value: studentData[section]})}} className="btnStyle" style={{width:'100%'}}>Add {section} marks</button>
+                            <button onClick={()=>{setSelectedAction('addMarks');setSectionMarksModal(true);setSelecetedSection({key: section, value: studentData[section]})}} className="btnStyle" style={{width:'100%'}}>Add {section} marks</button>
                             <span className="table-editBtn" style={{cursor:'pointer'}}>
                                 <MdEdit size={25} onClick={()=>{setSectionNameModal(true);setSelecetedSection({ secId:student.SectionStudent.SECTION_ID, studentId:student.ID , key: section, value: studentData[section]}); setSelectedAction('editSection')}} />
                             </span>
