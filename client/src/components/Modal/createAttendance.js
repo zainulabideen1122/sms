@@ -5,12 +5,17 @@ import '../index.css'
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import axios from 'axios';
+import apiClient from '../config/axios';
+import { useNavigate } from 'react-router-dom';
+import isUnAuth from '../../utils/checkUnAuth';
 
 
 function CreateAttendance({show, close, students, sectionID, updateData}) {
     const [startDate, setStartDate] = useState(new Date())
     const [studentsAttendance, setStudentsAttendance] = useState({})
     const jwtToken = localStorage.getItem('token')
+    const axios = apiClient(localStorage.getItem('token'))
+    const navigate = useNavigate()
     
     const fillStudentDefaultAttendance = ()=>{
         const initial = {};
@@ -37,17 +42,14 @@ function CreateAttendance({show, close, students, sectionID, updateData}) {
             date : startDate.toLocaleDateString('en-GB'),
             attendance : studentsAttendance
         }
-        axios.post('http://localhost:5000/academic/markAttendance', data, {
-            headers : {
-                'token' : jwtToken
-            }
-        })
+        axios.post('/academic/markAttendance', data)
         .then(res=>{
             console.log(res.data)
             updateData(res.data)
         })
         .catch(err=>{
             console.log(err)
+            isUnAuth(err, navigate)
         })
         fillStudentDefaultAttendance()
         close()

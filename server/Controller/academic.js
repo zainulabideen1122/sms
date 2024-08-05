@@ -89,6 +89,14 @@ const getStudentDetails = async(req, res)=>{
             SECTION_ID : sectionID
         }
     });
+    
+    const allStudents = await db.Mark.findOne({
+        where : {
+            SECTION_ID : sectionID
+        }
+    })
+    //console.log(allStudents)
+
     res.status(200).json(s)
 }
 

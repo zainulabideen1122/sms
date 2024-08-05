@@ -1,18 +1,19 @@
 import { useState, useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
 import axios from "axios";
+import apiClient from "../../../../components/config/axios";
+import { useNavigate } from "react-router-dom";
+import isUnAuth from "../../../../utils/checkUnAuth";
 
 function GetTeacherCourseSec({setSendCourse, query}) {
     const [courses, setCourses] = useState([])
     const [selectedCourse, setSelectedCourse] = useState({})
     const userEmail = jwtDecode(localStorage.getItem('token')).email
     const jwtToken = localStorage.getItem('token')
+    const axios = apiClient(localStorage.getItem('token'))
+    const navigate = useNavigate()
     const getTeacherData = async(data)=>{
-        await axios.post('http://localhost:5000/user/getTeacherCoursesAndSections', data,{
-            headers : {
-                'token' : jwtToken
-            }
-        })
+        await axios.post('/user/getTeacherCoursesAndSections', data)
         .then(res=>{
             console.log(res.data)
             const courses = res.data.Sections.reduce((acc, section) => {
@@ -32,6 +33,7 @@ function GetTeacherCourseSec({setSendCourse, query}) {
         })
         .catch(err=>{
             console.log(err)
+            isUnAuth(err, navigate)
         })
     }
 

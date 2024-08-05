@@ -17,6 +17,7 @@ import Attendance from './pages/teacher/Academic/attendance';
 import MarksManagement from './pages/teacher/Academic/marks';
 import StudentMarks from './pages/student/marks';
 import StudentAttendance from './pages/student/attendance';
+import UnAuthorized from './components/unauth';
 
 function App() {
   // const user = localStorage.getItem('token') ? jwtDecode(localStorage.getItem('token')) : ''
@@ -46,12 +47,15 @@ function AppContent(){
             <Route path='/auth/login' Component={Login}/>
             <Route path='/userManagement/teacher' Component={TeacherManagement}/>
             <Route path='/userManagement/student' Component={StudentManagement}/>
+
             <Route path='/systemSettings/roleManagement' element={<RoleManagement onSelectUser={(user)=>setSelectedUser(user)}/>} />
             <Route path='/systemSettings/roles' Component={Roles} />
             <Route path='/systemSettings/roleManagement/:id' element={<ManageRoles selectedUser={selectedUser} />}/>
+            
             <Route path='/courseManagement/courses' Component={Courses}/>
             <Route path="*" Component={NotFound}/>
-
+            <Route path="/unauthorized" Component={UnAuthorized}/>
+            
             {/* teachers */}
             <Route path='/academic/attendance' Component={Attendance} />
             <Route path='/academic/marksManagment' Component={MarksManagement}/>

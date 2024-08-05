@@ -1,9 +1,14 @@
 import axios from "axios";
 import { useState } from "react"
 import Modal from "../Common/Modal";
+import apiClient from "../config/axios";
+import isUnAuth from "../../utils/checkUnAuth";
+import { useNavigate } from "react-router-dom";
 
 function AddStudent({show, close, isEdit, setStudents, userID}) {
     const jwtToken = localStorage.getItem('token')
+    const navigate = useNavigate()
+    const axios = apiClient(localStorage.getItem('token'))
     const [studentDetail, setStudentDetail] = useState({
         NAME : '',
         EMAIL : '',
@@ -38,16 +43,13 @@ function AddStudent({show, close, isEdit, setStudents, userID}) {
     const AddStudentHandle = async()=>{
         const {NAME, EMAIL, PASSWORD, DEPARTMENT, ROLLNUM, BATCH} = studentDetail
         if(NAME && EMAIL && PASSWORD && DEPARTMENT  && ROLLNUM && BATCH){
-            await axios.post('http://localhost:5000/user/addStudent', studentDetail, {
-                headers: {
-                    'token': `${jwtToken}`
-                }
-            })
+            await axios.post('/user/addStudent', studentDetail)
             .then((res)=>{
                 setStudents(res.data)
             })
             .catch(err=>{
                 alert(err.response)
+                isUnAuth(err, navigate)
             })
             clearForm()
             close()
@@ -60,14 +62,12 @@ function AddStudent({show, close, isEdit, setStudents, userID}) {
     }
     
     const EditStudentHandle = async()=>{
-        await axios.post(`http://localhost:5000/user/editStudent/${userID}`, studentDetail, {
-            headers: {
-                'token': `${jwtToken}`
-            }
-        }).then((res)=>{
+        await axios.post(`/user/editStudent/${userID}`, studentDetail)
+        .then((res)=>{
             setStudents(res.data)
         }).catch((err)=>{
             console.log(err)
+            isUnAuth(err, navigate)
         })
         clearForm()
         close()

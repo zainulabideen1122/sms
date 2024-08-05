@@ -4,6 +4,9 @@ import { MdEdit } from "react-icons/md";
 import { MdDelete } from "react-icons/md";
 import AddStudent from "../../components/Modal/addStudent";
 import Table from "../../components/Common/Table";
+import apiClient from "../../components/config/axios";
+import isUnAuth from "../../utils/checkUnAuth";
+import { useNavigate } from "react-router-dom";
 
 function StudentManagement() {
 
@@ -14,18 +17,18 @@ function StudentManagement() {
     const [addStudentModal, setAddStudentModal] = useState(false);
     const [isEditModal, setIsEditModal] = useState(false)
     const jwtToken = localStorage.getItem('token')
+    const navigate = useNavigate()
+    const axios = apiClient(localStorage.getItem('token'))
+
     useEffect(()=>{
-        axios.get('http://localhost:5000/user/getAllStudents',{
-            headers: {
-                'token': `${jwtToken}`
-            }
-        })
+        axios.get('/user/getAllStudents')
         .then((res)=>{
             console.log(res.data)
             setStudents(res.data)
         })
         .catch(err=>{
-            console.log(err.response.data.message)
+            console.log(err.response)
+            isUnAuth(err, navigate)
         })
     }, [])
 
@@ -59,16 +62,13 @@ function StudentManagement() {
         if(confirmDelete === true)
         {
             console.log('Deleted successfully!')
-            axios.delete(`http://localhost:5000/user/deleteStudent/${id}`,{
-                headers: {
-                    'token': `${jwtToken}`
-                }
-            })
+            axios.delete(`/user/deleteStudent/${id}`)
             .then((res)=>{
                 setStudents(res.data)
             })
             .catch(err=>{
                 console.log(err)
+                isUnAuth(err, navigate)
             })
         }
     }

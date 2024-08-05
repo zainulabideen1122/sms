@@ -1,10 +1,12 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { MdDelete } from "react-icons/md";
 import './index.css'
 import AddRole from "../../components/Modal/addRole";
 import Table from "../../components/Common/Table";
+import apiClient from "../../components/config/axios";
+import isUnAuth from "../../utils/checkUnAuth";
 
 function Roles() {
     const [searchRole, setSearchRole] = useState('')
@@ -15,21 +17,20 @@ function Roles() {
     const [userRole, setUserRole] = useState()
     const [showPermissions, setShowPermissions] = useState(false);
     const [addRoleModal, setAddRoleModal] = useState(false)
+    const axios = apiClient(localStorage.getItem('token'))
+    const navigate = useNavigate()
 
 
     useEffect(()=>{
-        axios.get('http://localhost:5000/settings/roles',{
-            headers: {
-                'token': `${jwtToken}`
-            }
-        })
+        axios.get('/settings/roles')
         .then((res)=>{
             console.log(res.data)
             setRoles(res.data)
             //setPermissions(res.data.Permissions)
         })
         .catch(err=>{
-            console.log(err.response.data.message)
+            console.log(err.response)
+            isUnAuth(err, navigate)
         })
     }, [])
 
@@ -40,16 +41,13 @@ function Roles() {
     function fetchPermissions(user)
     {
         try {
-             axios.get(`http://localhost:5000/userPermission/${user}`,{
-                headers: {
-                    'token': `${jwtToken}`
-                }
-            })
+             axios.get(`/userPermission/${user}`)
             .then((res)=>{
                 setPermissions(res.data)
             })
         } catch (error) {
             console.log(error)
+            isUnAuth(error, navigate)
         }
     }
 

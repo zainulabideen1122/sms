@@ -1,5 +1,4 @@
 function StudentMarksView({studentMarks,setStudent, selectedCourse,children}) {
-    console.log('--->',selectedCourse.split('-'))
     function courseCode(){
         const codes = selectedCourse.split('-')
         return codes[0] + '-' + codes[1]
@@ -11,7 +10,6 @@ function StudentMarksView({studentMarks,setStudent, selectedCourse,children}) {
                     <h2>Student Marks</h2>
                     <span>
                         {studentMarks.map(course=>{
-                            console.log(course)
                             return(
                                 <li key={course.section.id} onClick={()=>setStudent(course.section.id)} className={`${courseCode()==course.courseCode?'activeCourseCode':''}`} >
                                     {course.courseCode}

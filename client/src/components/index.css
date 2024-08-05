@@ -494,15 +494,13 @@ ul.sidebar-subList li
    
 }
 
-/******************************************* studnt marks view *************************************************/
+/******************************************* student marks view *************************************************/
 .studentMarksView_container
 {
     width: 91%;
     margin: 1rem 1rem;
     padding:  1rem;
     border: 1px solid rgba(128, 128, 128, 0.582);
-    /* max-height: 40vh;
-    overflow: scroll; */
 }
 
 .studentMarkSection{

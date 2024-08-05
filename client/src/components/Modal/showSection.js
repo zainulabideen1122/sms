@@ -5,11 +5,16 @@ import SectionStudents from "../viewSectionStudents";
 import axios from "axios";
 import Table from "../Common/Table";
 import AssignTeacher from './assignTeacher'
+import { useNavigate } from "react-router-dom";
+import isUnAuth from "../../utils/checkUnAuth";
+import apiClient from "../config/axios";
 
 function ShowSection({show, close, section, setCourses, setSelectedSection}) {
     const [sectionStudentsListStatus, setSectionStudentListStatus] = useState(false)
     const [assignTeacherModal, setAssignTeacherModal] = useState(false)
     const jwtToken = localStorage.getItem('token')
+    const axios = apiClient(localStorage.getItem('token'))
+    const navigate = useNavigate()
     const handleShowStudentsList = ()=>{
         setSectionStudentListStatus(!sectionStudentsListStatus)
     }
@@ -21,13 +26,12 @@ function ShowSection({show, close, section, setCourses, setSelectedSection}) {
     }
 
     const handleDeleteSection = ()=>{
-        axios.delete(`http://localhost:5000/courses/deleteCourseSection/${section.ID}`,{
-            headers:{
-                'token' : jwtToken
-            }
-        })
+        axios.delete(`/courses/deleteCourseSection/${section.ID}`)
         .then(res=>{
             setCourses(res.data)
+        })
+        .catch(err=>{
+            isUnAuth(err, navigate)
         })
         close()
     }
@@ -42,17 +46,14 @@ function ShowSection({show, close, section, setCourses, setSelectedSection}) {
         {
             console.log('unAssign')
             console.log(section.ID)
-            axios.get(`http://localhost:5000/user/unAssignTeacherFromSection/${section.ID}`,{
-                headers:{
-                    'token' : jwtToken
-                }
-            })
+            axios.get(`/user/unAssignTeacherFromSection/${section.ID}`)
             .then(res=>{
                 console.log(res.data)
                 setSelectedSection(res.data)
             })
             .catch(err=>{
                 console.log(err)
+                isUnAuth(err, navigate)
             })
         }
     }

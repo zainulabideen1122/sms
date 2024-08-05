@@ -1,7 +1,9 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Table from "../../components/Common/Table";
+import apiClient from "../../components/config/axios";
+import isUnAuth from "../../utils/checkUnAuth";
 
 function RoleManagement({onSelectUser}) {
     const [searchUser, setSearchUser] = useState('')
@@ -9,20 +11,18 @@ function RoleManagement({onSelectUser}) {
     const [users, setUsers] = useState([])
     const [updatedUsers, setUpdatedUsers] = useState([]);
     const jwtToken = localStorage.getItem('token')
-
+    const axios = apiClient(localStorage.getItem('token'))
+    const navigate = useNavigate()
 
     useEffect(()=>{
-            axios.get('http://localhost:5000/user/getAllUsers',{
-                headers: {
-                    'token': `${jwtToken}`
-                }
-            })
+            axios.get('/user/getAllUsers')
             .then((res)=>{
                 console.log(res.data)
                 setUsers(res.data)
             })
             .catch(err=>{
                 console.log(err.response.data.message)
+                isUnAuth(err, navigate)
             })
     }, [])
 
@@ -120,7 +120,6 @@ function RoleManagement({onSelectUser}) {
                         })}
                         
                     </Table>
-                    {/* <AddTeacher show={addTeacherModal} close={toggleAddTeacher} isEdit={isEditModal} setTeachers={setTeachers} userID={editUserID} /> */}
                                           
                 </div>
             </div>

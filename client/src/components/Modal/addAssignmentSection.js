@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import Modal from "../Common/Modal";
 import axios from "axios";
+import apiClient from "../config/axios";
+import { useNavigate } from "react-router-dom";
+import isUnAuth from "../../utils/checkUnAuth";
 
 function AssignmentSection({show, close, setSection,selectedSecion, action, setUpdatedData, setInitial}) {
     const [sectionDetail, setSectionDetail] = useState({
@@ -9,6 +12,9 @@ function AssignmentSection({show, close, setSection,selectedSecion, action, setU
     })
     const [prevSectionName, setPrevSectionName] = useState('')
     const jwtToken = localStorage.getItem('token')
+    const axios = apiClient(localStorage.getItem('token'))
+    const navigate = useNavigate()
+
     const handleSectionDetail = (e)=>{
         const {name, value} = e.target
         setSectionDetail({
@@ -35,18 +41,14 @@ function AssignmentSection({show, close, setSection,selectedSecion, action, setU
             prevName : prevSectionName,
             new : sectionDetail
         }
-        axios.post('http://localhost:5000/academic/updateMarksSection', data, {
-            headers : {
-                'token' : jwtToken
-            }
-        })
+        axios.post('/academic/updateMarksSection', data)
         .then(res=>{
             console.log(res.data)
             setUpdatedData(res.data.MARKS_DATA)
             setInitial(res.data.MARKS_DATA)
         })
         .catch(err=>{
-            //console.log
+            isUnAuth(err, navigate)
         })
     }
 
@@ -60,7 +62,6 @@ function AssignmentSection({show, close, setSection,selectedSecion, action, setU
         {
             updateSectionDetails()
             close()
-            //console.log("zain=>>> ",prevSectionName,sectionDetail, action)
         }
     }
 

@@ -1,9 +1,11 @@
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import '../index.css'
 import { useEffect, useReducer, useState } from 'react';
 import { ImCheckboxChecked , ImCheckboxUnchecked } from "react-icons/im";
 import axios from 'axios';
 import ChangeRole from './changeRole';
+import apiClient from '../config/axios';
+import isUnAuth from '../../utils/checkUnAuth';
 
 function ManageRoles({selectedUser}) {
     const jwtToken = localStorage.getItem('token')
@@ -15,17 +17,17 @@ function ManageRoles({selectedUser}) {
     })
     const [changeUserModalStatus, setChangeUserModalStatus] = useState(false)
     const [userExtraDetail, setUserExtraDetail] = useState('')
+    const axios = apiClient(localStorage.getItem('token'))
+    const navigate = useNavigate()
+
     const getRoles = async()=>{
-        await axios.get('http://localhost:5000/settings/roles',{
-            headers: {
-                'token': `${jwtToken}`
-            }
-        })
+        await axios.get('/settings/roles')
         .then((res)=>{
             setRoles(res.data)
         })
         .catch(err=>{
             console.log(err.response.data.message)
+            isUnAuth(err, navigate)
         })
     }
 
@@ -38,18 +40,17 @@ function ManageRoles({selectedUser}) {
         {
             const changeR = userRole.NAME=="Teacher" ? "Student" : "Teacher"
             setUserRole({...userRole, NAME:changeR})
-            axios.post(`http://localhost:5000/settings/updateUserRole/${id}`,{
+            axios.post(`/settings/updateUserRole/${id}`,{
                         roleID:userRole.ID,
                         deleteFrom : userRole.NAME,
                         insertTo: changeR,
                         userDetail : userExtraDetail
-                    },{
-                        headers: {
-                            'token': `${jwtToken}`
-                        }
                     })
                     .then(res=>{
                         console.log(res)
+                    })
+                    .catch(err=>{
+                        isUnAuth(err, navigate)
                     })
 
         }

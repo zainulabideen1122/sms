@@ -1,6 +1,9 @@
 import axios from "axios";
 import { useState } from "react";
 import Modal from "../Common/Modal";
+import isUnAuth from "../../utils/checkUnAuth";
+import { useNavigate } from "react-router-dom";
+import apiClient from "../config/axios";
 
 function AddCourse({show, close, setCourses}) {
     const [courseDetail, setCourseDetail] = useState({
@@ -9,6 +12,8 @@ function AddCourse({show, close, setCourses}) {
         DEPARTMENT: ''
     })
     const jwtToken = localStorage.getItem('token')
+    const axios = apiClient(localStorage.getItem('token'))
+    const navigate = useNavigate()
 
 
     const updateCourseDetail = (e)=>
@@ -28,16 +33,13 @@ function AddCourse({show, close, setCourses}) {
     }
     
     function handleAddCourse(){
-        axios.post('http://localhost:5000/courses/addCourse', courseDetail, {
-            headers: {
-                'token': `${jwtToken}`
-            }
-        })
+        axios.post('/courses/addCourse', courseDetail)
         .then(res=>{
             setCourses(res.data)
         })
         .catch(err=>{
             console.log(err)
+            isUnAuth(err, navigate)
         })
         clearForm()
         close()

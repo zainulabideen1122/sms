@@ -2,9 +2,13 @@ import axios from "axios";
 import { useState } from "react";
 import { MdOutlineCancel } from "react-icons/md";
 import Modal from "../Common/Modal";
+import isUnAuth from "../../utils/checkUnAuth";
+import { useNavigate } from "react-router-dom";
+import apiClient from "../config/axios";
 
 function AddTeacher({show, close, isEdit, setTeachers, userID}) {
-
+    const navigate = useNavigate()
+    const axios = apiClient(localStorage.getItem('token'))
     const jwtToken = localStorage.getItem('token')
     const [teacherDetail, setTeacherDetail] = useState({
         NAME : "",
@@ -40,16 +44,13 @@ function AddTeacher({show, close, isEdit, setTeachers, userID}) {
         const {NAME, EMAIL, PASSWORD, DEPARTMENT, EXPERIENCE, QUALIFICATION} = teacherDetail
         if(NAME && EMAIL && PASSWORD && DEPARTMENT && EXPERIENCE && QUALIFICATION)
         {
-            await axios.post('http://localhost:5000/user/addTeacher', teacherDetail, {
-                headers: {
-                    'token': `${jwtToken}`
-                }
-            })
+            await axios.post('/user/addTeacher', teacherDetail)
             .then((res)=>{
                 setTeachers(res.data)
             })
             .catch(err=>{
-                alert(err.response.data.message)
+                alert(err.response)
+                isUnAuth(err, navigate)
             })
             clearForm()
             close()
@@ -62,11 +63,8 @@ function AddTeacher({show, close, isEdit, setTeachers, userID}) {
     }
 
     const EditTeacherHandle = async()=>{
-        await axios.post(`http://localhost:5000/user/editTeacher/${userID}`, teacherDetail, {
-            headers: {
-                'token': `${jwtToken}`
-            }
-        }).then((res)=>{
+        await axios.post(`/user/editTeacher/${userID}`, teacherDetail)
+        .then((res)=>{
             setTeachers(res.data)
         }).catch((err)=>{
             console.log(err)

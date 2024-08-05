@@ -1,12 +1,14 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import './index.css'
 import AddCourse from "../../components/Modal/addCourse";
 import SectionStudents from "../../components/viewSectionStudents";
 import ShowSection from "../../components/Modal/showSection";
 import AddSection from "../../components/Modal/addSection";
 import Table from "../../components/Common/Table";
+import apiClient from "../../components/config/axios";
+import isUnAuth from "../../utils/checkUnAuth";
 
 function Courses() {
 
@@ -19,6 +21,8 @@ function Courses() {
     const [selectedCourse, setSelectedCourse] = useState('')
     const [showSectionModal, setShowSectionModal] = useState(false)
     const [addSectionModal, setAddSectionModal] = useState(false)
+    const axios = apiClient(localStorage.getItem('token'))
+    const navigate = useNavigate()
 
     function toggleShowSectionModal(){
         setShowSectionModal(!showSectionModal)
@@ -32,14 +36,13 @@ function Courses() {
     }
 
     useEffect(()=>{
-        axios.get('http://localhost:5000/courses',{
-            headers : {
-                'token' : jwtToken
-            }
-        })
+        axios.get('/courses')
         .then(res=>{
             setCourses(res.data)
             setUpdatedCourses(res.data)
+        })
+        .catch(err=>{
+            isUnAuth(err, navigate)
         })
     }, [selectedSection])
 

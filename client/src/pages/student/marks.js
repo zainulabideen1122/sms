@@ -3,6 +3,9 @@ import { jwtDecode } from "jwt-decode";
 import { useEffect, useState } from "react";
 import StudentMarksView from "../../components/View/studentMarks";
 import Table from "../../components/Common/Table";
+import isUnAuth from "../../utils/checkUnAuth";
+import { useNavigate } from "react-router-dom";
+import apiClient from "../../components/config/axios";
 
 function StudentMarks() {
 
@@ -13,6 +16,9 @@ function StudentMarks() {
         studentID : '',
         courseName :''
     })
+    const navigate = useNavigate()
+    const axios = apiClient(localStorage.getItem('token'))
+
 
     const [studentMarks, setStudentMarks] = useState({})
 
@@ -24,11 +30,7 @@ function StudentMarks() {
 
     useEffect(()=>{
         const data = {studentEmail : userEmail}
-        axios.post('http://localhost:5000/user/getStudentCoursesAndSections', data, {
-            headers :{
-                'token' : jwtToken
-            }
-        })
+        axios.post('/user/getStudentCoursesAndSections', data)
         .then(res=>{
             setStudentDetails({...studentDetails ,studentID:res.data.ID})
             const courses = res.data.Sections.reduce((acc, section) => {
@@ -46,10 +48,10 @@ function StudentMarks() {
                 return acc;
               }, []);
             setStudentCourses(courses)
-            console.log(courses)
+            //console.log(courses)
         })
         .catch(err=>{
-            console.log(err)
+            isUnAuth(err, navigate)
         })
     }, [])
 
@@ -59,13 +61,9 @@ function StudentMarks() {
             studentID : studentDetails.studentID
         }
 
-        axios.post('http://localhost:5000/academic/student/getStudentMarks', data, {
-            headers : {
-                'token' : jwtToken
-            }
-        })
+        axios.post('/academic/student/getStudentMarks', data)
         .then(res=>{
-            console.log(res.data)
+            console.log(res.status)
             if(res.data==null)
             {
                 setStudentMarks({})
@@ -82,9 +80,8 @@ function StudentMarks() {
             }
             
         }).catch(err=>{
-            console.log(err)
+            isUnAuth(err, navigate)
         })
-        console.log(selected)
     }
 
     return ( 
@@ -98,9 +95,9 @@ function StudentMarks() {
                             <fieldset className="marksFieldSet">
                             <legend>{section}:  (Total Marks: {studentMarks[section].percentage}) </legend>
                             {studentMarks[section].marks.length <= 0 ? <h1 style={{textAlign:'center', padding:'1rem 1rem 1.5rem'}}>No data to show</h1> :
-                            <Table titles={['Sr.', 'Obt.','Total','']}>
+                            <Table titles={['Sr.', 'Obt.','Total','Average', '']}>
                                 {studentMarks[section].marks && studentMarks[section].marks.map((mark, idx)=>{
-                                    return(
+                                    return( 
                                         <tr key={mark.id}>
                                             <td>{idx+1}</td>
                                             <td>{mark.obtained}</td>

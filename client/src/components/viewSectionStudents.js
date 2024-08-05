@@ -2,10 +2,16 @@ import { useState } from "react";
 import AssignStudent from "./Modal/assignStudent";
 import axios from "axios";
 import Table from "./Common/Table";
+import apiClient from "./config/axios";
+import { useNavigate } from "react-router-dom";
+import isUnAuth from "../utils/checkUnAuth";
 
 function SectionStudents({show, section, setSelectedSection}) {
 
     const [assignSectionModal, setAssignSectionModal] = useState(false)
+    const axios = apiClient(localStorage.getItem('token'))
+    const navigate = useNavigate()
+
     function toggleAssignStudent(){
         setAssignSectionModal(!assignSectionModal)
     }
@@ -14,14 +20,13 @@ function SectionStudents({show, section, setSelectedSection}) {
     async function handleUnrollStudent (studentID)
     {
         const data = {sectionID : section.ID, studentID : studentID}
-        await axios.post('http://localhost:5000/user/unrollStudenFromSection', data,{
-            headers:{
-                'token' : jwtToken
-            }
-        })
+        await axios.post('/user/unrollStudenFromSection', data)
         .then(res=>{
             console.log(res.data)
             setSelectedSection(res.data)
+        })
+        .catch(err=>{
+            isUnAuth(err, navigate)
         })
     }
 

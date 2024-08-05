@@ -5,6 +5,9 @@ import axios from 'axios';
 import CreateAttendance from '../../../components/Modal/createAttendance';
 import Table from '../../../components/Common/Table';
 import GetTeacherCourseSec from './common/getTeacherCourseSec';
+import apiClient from '../../../components/config/axios';
+import { useNavigate } from 'react-router-dom';
+import isUnAuth from '../../../utils/checkUnAuth';
 
 function Attendance() {
     const userEmail = jwtDecode(localStorage.getItem('token')).email
@@ -13,6 +16,8 @@ function Attendance() {
     const [createAttendanceModal, setCreateAttendanceModal] = useState(false)
     const [students, setStudents] = useState([])
     const [studentsAttendance, setStudentsAttendance] = useState([])
+    const axios = apiClient(localStorage.getItem('token'))
+    const navigate = useNavigate()
 
     function toggleAttendanceModal(){
         setCreateAttendanceModal(!createAttendanceModal)
@@ -22,17 +27,14 @@ function Attendance() {
         //console
         if(sectionID)
         {
-            axios.get(`http://localhost:5000/academic/getStudentsAttendance/${sectionID}`, {
-                headers : {
-                    'token' : jwtToken
-                }
-            })
+            axios.get(`/academic/getStudentsAttendance/${sectionID}`)
             .then(res=>{
                 console.log("student attendance=>> ", res.data)
                 setStudentsAttendance(res.data)
             })
             .catch(err=>{
                 //console.log()
+                isUnAuth(err, navigate)
             })
         }
     }
@@ -41,17 +43,14 @@ function Attendance() {
         console.log(sendCourse)
         if(sendCourse && Object.keys(sendCourse).length > 0)
         {
-            axios.post('http://localhost:5000/user/getAttendanceList', sendCourse, {
-                headers : {
-                    'token' : jwtToken
-                }
-            })
+            axios.post('/user/getAttendanceList', sendCourse)
             .then(res=>{
                 console.log(res.data)
                 setStudents(res.data[0].Students)
             })
             .catch(err=>{
                 //console.log
+                isUnAuth(err, navigate)
             })
 
             getStudentsAttendance(sendCourse.section.id)
@@ -77,7 +76,7 @@ function Attendance() {
                                     <td>{idx+1}</td>
                                     <td>{attendance.Student.User.NAME}</td>
                                     {Object.keys(attendance.ATTENDANCE_DATA).slice(-4).map((date) => (
-                                        <td key={date} className={`${attendance.ATTENDANCE_DATA[date] == 'Present' ? 'greenText' : attendance.ATTENDANCE_DATA[date] == 'Absent' ? 'redText':''}`}>{attendance.ATTENDANCE_DATA[date]}</td>
+                                        <td key={date} className={`${attendance.ATTENDANCE_DATA[date] == 'Present' ? 'greenText' : attendance.ATTENDANCE_DATA[date] == 'Absent' ? 'redText':''}`}>{attendance.ATTENDANCE_DATA[date] == 'Present' ? 'P' : attendance.ATTENDANCE_DATA[date] == 'Absent' ? 'A' : 'L'}</td>
                                     ))}
                                 </tr>
                             )

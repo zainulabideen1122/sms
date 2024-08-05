@@ -1,10 +1,15 @@
 import axios from "axios";
 import { useState } from "react";
 import Modal from "../Common/Modal";
+import apiClient from "../config/axios";
+import { useNavigate } from "react-router-dom";
+import isUnAuth from "../../utils/checkUnAuth";
 
 function AddRole({show, close, setRoles}) {
 
     const jwtToken = localStorage.getItem('token')
+    const axios = apiClient(localStorage.getItem('token'))
+    const navigate = useNavigate()
     const [roleDetail, setRoleDetail] = useState({
         NAME : '',
         DESCRIPTION : ''
@@ -25,15 +30,13 @@ function AddRole({show, close, setRoles}) {
         })
     }
     const addRoleHandle = async()=>{
-        await axios.post('http://localhost:5000/settings/addRole', roleDetail,{
-            headers : {
-                'token': `${jwtToken}`
-            }
-        })
+        await axios.post('/settings/addRole', roleDetail)
         .then(res=>{
             setRoles(res.data)
         })
-
+        .catch(err=>{
+            isUnAuth(err, navigate)
+        })
         clearForm()
         close()
     }

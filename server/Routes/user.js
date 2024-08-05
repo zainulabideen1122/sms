@@ -4,29 +4,30 @@ const {getAllUsers, getAllTeachers, deleteTeacher, addTeacher, editTeacher, getA
 
 const teacherRouter = require('../Controller/teacher')
 const studentRouter = require('../Controller/student')
+const verifyRoles = require('../middleware/verifyRoles')
 
 //all users
-router.get('/getAllUsers', getAllUsers)
+router.get('/getAllUsers',verifyRoles('Admin'), getAllUsers)
 
 //teacher routers
-router.get('/getAllTeachers', teacherRouter.getAllTeachers)
-router.delete('/deleteTeacher/:id', teacherRouter.deleteTeacher)
-router.post('/addTeacher', teacherRouter.addTeacher)
-router.post('/editTeacher/:id', teacherRouter.updateTeacher)
-router.post('/addTeacherToSection', teacherRouter.addTeacherToSection)
-router.get('/unAssignTeacherFromSection/:id', teacherRouter.unAssignTeacher)
-router.post('/getTeacherCoursesAndSections', teacherRouter.getTeacherCoursesAndSections)
-router.post('/getAttendanceList', teacherRouter.getAttendanceList)
+router.get('/getAllTeachers',verifyRoles('Admin'), teacherRouter.getAllTeachers)
+router.delete('/deleteTeacher/:id',verifyRoles('Admin'),teacherRouter.deleteTeacher)
+router.post('/addTeacher',verifyRoles('Admin'), teacherRouter.addTeacher)
+router.post('/editTeacher/:id', verifyRoles('Admin', 'Teacher'),teacherRouter.updateTeacher)
+router.post('/addTeacherToSection', verifyRoles('Admin'),teacherRouter.addTeacherToSection)
+router.get('/unAssignTeacherFromSection/:id', verifyRoles('Admin'),teacherRouter.unAssignTeacher)
+router.post('/getTeacherCoursesAndSections', verifyRoles('Teacher'),teacherRouter.getTeacherCoursesAndSections)
+router.post('/getAttendanceList',verifyRoles('Admin', 'Teacher', 'Student'), teacherRouter.getAttendanceList)
 
 // student routers
-router.get('/getAllStudents', studentRouter.getAllStudents)
-router.delete('/deleteStudent/:id', studentRouter.deleteStudent)
-router.post('/addStudent', studentRouter.addStudent)
-router.post('/editStudent/:id', studentRouter.updateStudent)
-router.post('/addStudentToSection', studentRouter.addStudentToCourseSection)
-router.post('/addStudentsToSection', studentRouter.addStudentsToCourseSection)
-router.post('/unrollStudenFromSection', studentRouter.unrollStudenFromSection)
-router.post('/getStudentCoursesAndSections', studentRouter.getStudentCoursesAndSections)
+router.get('/getAllStudents',verifyRoles('Admin', 'Teacher'), studentRouter.getAllStudents)
+router.delete('/deleteStudent/:id',verifyRoles('Admin'), studentRouter.deleteStudent)
+router.post('/addStudent',verifyRoles('Admin'), studentRouter.addStudent)
+router.post('/editStudent/:id',verifyRoles('Admin', 'Student'), studentRouter.updateStudent)
+router.post('/addStudentToSection',verifyRoles('Admin'), studentRouter.addStudentToCourseSection)
+router.post('/addStudentsToSection',verifyRoles('Admin'), studentRouter.addStudentsToCourseSection)
+router.post('/unrollStudenFromSection',verifyRoles('Admin','Student'), studentRouter.unrollStudenFromSection)
+router.post('/getStudentCoursesAndSections',verifyRoles('Student'), studentRouter.getStudentCoursesAndSections)
 
 
 module.exports = router;

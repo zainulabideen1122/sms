@@ -6,6 +6,9 @@ import AssignmentMarks from "./addAssignmentMarks";
 import Table from "../Common/Table";
 import { MdEdit } from "react-icons/md";
 import { MdDelete } from "react-icons/md";
+import apiClient from "../config/axios";
+import { useNavigate } from "react-router-dom";
+import isUnAuth from "../../utils/checkUnAuth";
 
 function ManageStudentMarks({show, close, student}) {
     const [sectionNameModal, setSectionNameModal] = useState(false)
@@ -17,10 +20,10 @@ function ManageStudentMarks({show, close, student}) {
     const [selectedMarkId, setSelectedMarkId] = useState('')
 
     const jwtToken = localStorage.getItem('token')
+    const axios = apiClient(localStorage.getItem('token'))
+    const navigate = useNavigate()
 
-    console.log(student)
     const handleSetSection = (obj)=>{
-        //console.log(name)
         const {name, percentage} = obj
         setStudentData({
             ...studentData,
@@ -44,11 +47,7 @@ function ManageStudentMarks({show, close, student}) {
                 sectionID : student.SectionStudent ? student.SectionStudent.SECTION_ID:'',
                 studentID : student.ID
             }
-            axios.post('http://localhost:5000/academic/getStudentMarks',data,{
-                headers : {
-                    'token'  : jwtToken
-                }
-            })
+            axios.post('/academic/getStudentMarks',data)
             .then(res=>{
                 //console.log(res)
                 if(res.data==null)
@@ -60,6 +59,9 @@ function ManageStudentMarks({show, close, student}) {
                     setInitialStudentData(res.data.MARKS_DATA)
                 }
             
+            })
+            .catch(err=>{
+                isUnAuth(err, navigate)
             })
         }
     }, [show])
@@ -79,17 +81,14 @@ function ManageStudentMarks({show, close, student}) {
                 studentID : student.ID,
                 marksData : studentData
             }
-            axios.post('http://localhost:5000/academic/addStudentMarks', data, {
-                headers:{
-                    'token' : jwtToken
-                }
-            })
+            axios.post('/academic/addStudentMarks', data)
             .then(res=>{
                 console.log(res.data)
                 setStudentData(res.data.MARKS_DATA)
                 setInitialStudentData(res.data.MARKS_DATA)
             }).catch(err=>{
                 //console.log
+                isUnAuth(err, navigate)
             })
         }
     }
@@ -121,13 +120,7 @@ function ManageStudentMarks({show, close, student}) {
 
     const handleDeleteMark = (section, markID)=>{
         const updatedMarks = studentData[section].marks.filter(mark => mark.id !== markID);
-        // setSection({
-        //     ...allSections,
-        //     [section.key]: {
-        //     ...section.value,
-        //     marks: updatedMarks
-        //     }
-        // });
+
         setStudentData({
             ...studentData,
             [section] : {

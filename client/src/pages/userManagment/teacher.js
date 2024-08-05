@@ -2,9 +2,11 @@ import { useEffect, useMemo, useState } from "react";
 import './index.css'
 import { MdEdit } from "react-icons/md";
 import { MdDelete } from "react-icons/md";
-import axios from "axios";
 import AddTeacher from "../../components/Modal/addTeacher";
 import Table from "../../components/Common/Table";
+import { useNavigate } from "react-router-dom";
+import isUnAuth from "../../utils/checkUnAuth";
+import apiClient from "../../components/config/axios";
 
 function TeacherManagement() {
     // const [state, setState] = React.useState({teacher: [], student: [], searchTeacher: ''})
@@ -15,11 +17,13 @@ function TeacherManagement() {
     const [addTeacherModal, setAddTeacherModal] = useState(false);
     const [isEditModal, setIsEditModal] = useState(false)
     const jwtToken = localStorage.getItem('token')
+    const navigate = useNavigate()
+    const axios = apiClient(localStorage.getItem('token'))
 
     const getAllTeachers = ()=>{
-        axios.get('http://localhost:5000/user/getAllTeachers',{
-            headers: {
-                'token': `${jwtToken}`
+        axios.get('/user/getAllTeachers',{
+            headers : {
+                'token' : localStorage.getItem('token')
             }
         })
         .then((res)=>{
@@ -27,7 +31,8 @@ function TeacherManagement() {
             setTeachers(res.data)
         })
         .catch(err=>{
-            console.log(err.response.data.message)
+            console.log(err.response)
+            isUnAuth(err, navigate)
         })
     }
 
@@ -67,16 +72,13 @@ function TeacherManagement() {
         if(confirmDelete === true)
         {
             console.log('Deleted successfully!')
-            axios.delete(`http://localhost:5000/user/deleteTeacher/${id}`,{
-                headers: {
-                    'token': `${jwtToken}`
-                }
-            })
+            axios.delete(`/user/deleteTeacher/${id}`)
             .then((res)=>{
                 setTeachers(res.data)
             })
             .catch(err=>{
                 console.log(err)
+                isUnAuth(err, navigate)
             })
         }
     }
@@ -97,9 +99,6 @@ function TeacherManagement() {
         toggleAddTeacher()
     }
 
-    
-    
-   
     return ( 
         <>
             <div className="teacherManagement-container">

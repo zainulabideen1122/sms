@@ -1,6 +1,9 @@
 import { useState } from "react";
 import Modal from "../Common/Modal";
 import axios from "axios";
+import apiClient from "../config/axios";
+import isUnAuth from "../../utils/checkUnAuth";
+import { useNavigate } from "react-router-dom";
 
 function AddSection({show, close, courseID, setCourses}) {
     const [sectionDetail, setSectionDetail] = useState({
@@ -8,16 +11,18 @@ function AddSection({show, close, courseID, setCourses}) {
         courseID : ''
     })
     const jwtToken = localStorage.getItem('token')
+    const navigate = useNavigate()
+    const axios = apiClient(localStorage.getItem('token'))
+    
     const handleAddSection = ()=>{
         // setSectionDetail({courseID : courseID})
         const updatedObj = Object.assign(sectionDetail, {courseID : courseID})
-        axios.post('http://localhost:5000/courses/addSectionToCourse', updatedObj,{
-            headers: {
-                'token': `${jwtToken}`
-            }
-        })
+        axios.post('/courses/addSectionToCourse', updatedObj)
         .then(res=>{
             setCourses(res.data)
+        })
+        .catch(err=>{
+            isUnAuth(err, navigate)
         })
         close()
     }

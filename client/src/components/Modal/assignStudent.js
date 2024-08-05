@@ -3,6 +3,9 @@ import Modal from "../Common/Modal";
 import { IoClose } from "react-icons/io5";
 import axios from "axios";
 import Table from "../Common/Table";
+import apiClient from "../config/axios";
+import { useNavigate } from "react-router-dom";
+import isUnAuth from "../../utils/checkUnAuth";
 
 function AssignStudent({show, close, sectionId, setSelectedSection, registeredStudents}) {
 
@@ -17,6 +20,8 @@ function AssignStudent({show, close, sectionId, setSelectedSection, registeredSt
     const [selectedStudents, setSelectedStudents] = useState({
         ids : []
     })
+    const axios = apiClient(localStorage.getItem('token'))
+    const navigate = useNavigate()
 
 
 
@@ -34,16 +39,17 @@ function AssignStudent({show, close, sectionId, setSelectedSection, registeredSt
     },[searchFilter,filters])
 
     useEffect(()=>{
-        {show && axios.get('http://localhost:5000/user/getAllStudents',{
-            headers:{
-                'token' : jwtToken
-            }
-        })
+        {show && axios.get('/user/getAllStudents')
         .then(res=>{
             console.log(res.data)
             setAllStudents(res.data)
             setUpdatedStudents(res.data)
-        })}
+        })
+        .catch(err=>{
+            isUnAuth(err, navigate)
+        })
+        }
+        
     }, [show])
 
     const handleAddBatchTag = (e)=>{
@@ -112,15 +118,14 @@ function AssignStudent({show, close, sectionId, setSelectedSection, registeredSt
         if(students.length > 0)
         {
             const updated = Object.assign({students:students}, {sectionID: sectionId})
-            await axios.post('http://localhost:5000/user/addStudentsToSection',updated,{
-                headers : {
-                    'token' : jwtToken
-                }
-            })
+            await axios.post('/user/addStudentsToSection',updated)
             .then(res=>{
                 console.log(res)
                 setSelectedSection(res.data)
-            })            
+            })   
+            .catch(err=>{
+                isUnAuth(err, navigate)
+            })         
         }
         else
         {

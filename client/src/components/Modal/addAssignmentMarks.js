@@ -73,7 +73,6 @@ function AssignmentMarks({show, close, section,allSections, setSection, action, 
               })
         }
 
-        //console.log(allSections[section.key].marks.length)
         clearForm()
         close()
     }

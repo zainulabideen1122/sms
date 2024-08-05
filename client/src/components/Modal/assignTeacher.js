@@ -3,6 +3,9 @@ import { useEffect, useState } from "react";
 import Table from "../Common/Table";
 import { IoClose } from "react-icons/io5";
 import axios from "axios";
+import apiClient from "../config/axios";
+import isUnAuth from "../../utils/checkUnAuth";
+import { useNavigate } from "react-router-dom";
 
 function AssignTeacher({show, close, section, setSelectedSection}) {
 
@@ -13,19 +16,17 @@ function AssignTeacher({show, close, section, setSelectedSection}) {
         departments : []
     })
     const jwtToken = localStorage.getItem('token')
-
+    const axios = apiClient(localStorage.getItem('token'))
+    const navigate = useNavigate()
     useEffect(()=>{
-        axios.get('http://localhost:5000/user/getAllTeachers',{
-            headers : {
-                'token' : jwtToken
-            }
-        })
+        axios.get('/user/getAllTeachers')
         .then(res=>{
             setTeachers(res.data)
             setUpdatedTeachers(res.data)
         })
         .catch(err=>{
             console.log(err)
+            isUnAuth(err, navigate)
         })
     }, [])
 
@@ -69,17 +70,14 @@ function AssignTeacher({show, close, section, setSelectedSection}) {
             sectionID : section.ID,
             teacherID : teacherID
         }
-        axios.post('http://localhost:5000/user/addTeacherToSection',data, {
-            headers : {
-                'token' : jwtToken
-            }
-        })
+        axios.post('/user/addTeacherToSection',data)
         .then(res=>{
             setSelectedSection(res.data)
             close()
         })
         .catch(err=>{
             console.log(err)
+            isUnAuth(err, navigate)
         })
     }
 
