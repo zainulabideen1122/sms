@@ -42,23 +42,33 @@ function GetTeacherCourseSec({setSendCourse, query}) {
         getTeacherData(data)    
     }, [])
 
-    const handleSelectedData = (e)=>{
-        if(selectedCourse && selectedCourse.sections)
-        {
-            const selectedSection = selectedCourse.sections.filter((section) => section.id === parseInt(e.target.value))[0];
-            setSendCourse({
-                id : selectedCourse.id,
-                name : selectedCourse.name,
-                section : selectedSection
-            })
+    useEffect(() => {
+        if (selectedCourse && selectedCourse.sections) {
+          const firstSection = selectedCourse.sections[0];
+          setSendCourse({
+            id: selectedCourse.id,
+            name: selectedCourse.name,
+            section: firstSection,
+          });
         }
-    }
+      }, [selectedCourse]);
+
+      const handleSelectedData = (e) => {
+        if (selectedCourse && selectedCourse.sections) {
+          const selectedSection = selectedCourse.sections.find((section) => section.id === parseInt(e.target.value));
+          setSendCourse({
+            id: selectedCourse.id,
+            name: selectedCourse.name,
+            section: selectedSection,
+          });
+        }
+      };
 
     
     return ( 
         <>
                 <select name="teacher_searchProperty" onChange={(e) => setSelectedCourse(courses.find((course) => course.id === parseInt(e.target.value)))}>
-                    <option>Course</option>
+                <option value="" disabled selected>Course</option>
                     {courses.map(course=>{
                         return(
                             <option key={course.id} value={course.id}>{course.name}</option>
@@ -66,7 +76,6 @@ function GetTeacherCourseSec({setSendCourse, query}) {
                     })}
                 </select>
                 <select name="teacher_searchProperty" onChange={handleSelectedData}>
-                    <option>Section</option>
                     { selectedCourse && selectedCourse.sections !== undefined ? selectedCourse.sections.map(section=>{
                         return(
                             <option key={section.id} value={section.id} >{section.name}</option>

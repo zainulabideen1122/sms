@@ -69,19 +69,21 @@ function Attendance() {
                 </div>
 
                 <div className="teacherManagement-content">
-                    <Table titles={['Sr.','Student Name',  ...Object.keys(studentsAttendance[0] ? studentsAttendance[0].ATTENDANCE_DATA : {}).slice(-4)]}>
-                        {studentsAttendance.map((attendance, idx)=>{
-                            return(
-                                <tr key={attendance.STUDENT_ID}>
-                                    <td>{idx+1}</td>
-                                    <td>{attendance.Student.User.NAME}</td>
-                                    {Object.keys(attendance.ATTENDANCE_DATA).slice(-4).map((date) => (
-                                        <td key={date} className={`${attendance.ATTENDANCE_DATA[date] == 'Present' ? 'greenText' : attendance.ATTENDANCE_DATA[date] == 'Absent' ? 'redText':''}`}>{attendance.ATTENDANCE_DATA[date] == 'Present' ? 'P' : attendance.ATTENDANCE_DATA[date] == 'Absent' ? 'A' : 'L'}</td>
-                                    ))}
-                                </tr>
-                            )
-                        })}
-                    </Table>
+                <div className="table-container">
+    <Table titles={['Sr.','Student Name',  ...Object.keys(studentsAttendance[0] ? studentsAttendance[0].ATTENDANCE_DATA : {})]}>
+      {studentsAttendance.map((attendance, idx)=>{
+        return(
+          <tr key={attendance.STUDENT_ID}>
+            <td>{idx+1}</td>
+            <td>{attendance.Student.User.NAME}</td>
+            {Object.keys(attendance.ATTENDANCE_DATA).map((date) => (
+              <td key={date} className={`${attendance.ATTENDANCE_DATA[date] == 'Present' ? 'greenText' : attendance.ATTENDANCE_DATA[date] == 'Absent' ? 'redText':''}`}>{attendance.ATTENDANCE_DATA[date] == 'Present' ? 'P' : attendance.ATTENDANCE_DATA[date] == 'Absent' ? 'A' : 'L'}</td>
+            ))}
+          </tr>
+        )
+      })}
+    </Table>
+  </div>
                 </div>
                 <CreateAttendance show={createAttendanceModal} close={toggleAttendanceModal} students={students} sectionID={sendCourse.section ? sendCourse.section.id: null} setStudentsAttendance={setStudentsAttendance} />
            </div>

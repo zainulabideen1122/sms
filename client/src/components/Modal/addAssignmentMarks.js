@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Modal from "../Common/Modal";
 
 
-function AssignmentMarks({show, close, section,allSections, setSection, action, markId}) {
+function AssignmentMarks({show, close, section,allSections, setSection, action, markId, setMarkId}) {
 
     //console.log(section)
     const [studentMarks, setStudentMarks] = useState({
@@ -12,14 +12,20 @@ function AssignmentMarks({show, close, section,allSections, setSection, action, 
 
 
     useEffect(()=>{
-        if(show && action == 'editMarks')
+        if(action == 'editMarks')
         {
-            const markObject = section.value.marks.find(mark => mark.id === 1);
-            console.log(markObject)
-            setStudentMarks({
-                obtained : markObject.obtained,
-                total : markObject.total
-            })
+            if(show)
+            {
+                const markObject = section.value.marks.find(mark => mark.id === markId);
+                console.log(markObject)
+                setStudentMarks({
+                    obtained : markObject.obtained,
+                    total : markObject.total
+                })
+            }else{
+                clearForm()
+            }
+            
         }
     }, [show])
     

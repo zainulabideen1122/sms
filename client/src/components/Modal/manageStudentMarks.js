@@ -181,7 +181,7 @@ function ManageStudentMarks({show, close, student}) {
                 <button onClick={handleSaveMarks} disabled={isDisabled} className="addBtn" style={isDisabled?{background:'gray'} : {}}>Save</button>
             </div>
             <AssignmentSection show={sectionNameModal} close={toggleSectionName} setSection={handleSetSection} selectedSecion={selectedSection} action={selectedAction} setUpdatedData={setStudentData} setInitial={setInitialStudentData}/>
-            <AssignmentMarks show={sectionMarksModal} close={toggleSectionMarks} section={selectedSection} allSections={studentData} setSection={setStudentData} action={selectedAction} markId={selectedMarkId}/>
+            <AssignmentMarks show={sectionMarksModal} close={toggleSectionMarks} section={selectedSection} allSections={studentData} setSection={setStudentData} action={selectedAction} markId={selectedMarkId} setMarkId={setSelectedMarkId}/>
         </Modal>
         </div>
      );
