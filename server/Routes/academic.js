@@ -6,7 +6,7 @@ const marksController = require('../Controller/academic')
 //attendance routes
 router.post('/markAttendance', attendanceController.markStudentsAttendance)
 router.get('/getStudentsAttendance/:id', verifyRoles('Teacher'), attendanceController.getStudentsAttendance)
-
+router.post('/getStudentAttendance', verifyRoles('Student'), attendanceController.getStudentAttendance)
 //marks routes
  
 //teachers

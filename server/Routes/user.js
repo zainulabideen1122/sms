@@ -24,10 +24,10 @@ router.get('/getAllStudents',verifyRoles('Admin', 'Teacher'), studentRouter.getA
 router.delete('/deleteStudent/:id',verifyRoles('Admin'), studentRouter.deleteStudent)
 router.post('/addStudent',verifyRoles('Admin'), studentRouter.addStudent)
 router.post('/editStudent/:id',verifyRoles('Admin', 'Student'), studentRouter.updateStudent)
-router.post('/addStudentToSection',verifyRoles('Admin'), studentRouter.addStudentToCourseSection)
+router.post('/addStudentToSection',verifyRoles('Admin', 'Student'), studentRouter.addStudentToCourseSection)
 router.post('/addStudentsToSection',verifyRoles('Admin'), studentRouter.addStudentsToCourseSection)
 router.post('/unrollStudenFromSection',verifyRoles('Admin','Student'), studentRouter.unrollStudenFromSection)
 router.post('/getStudentCoursesAndSections',verifyRoles('Student'), studentRouter.getStudentCoursesAndSections)
-
+// router.post('/getStudentRegisterCourses', verifyRoles('Student'), student)
 
 module.exports = router;

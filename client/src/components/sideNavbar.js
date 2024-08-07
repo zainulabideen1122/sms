@@ -7,6 +7,7 @@ import { Link, useLocation } from "react-router-dom";
 import { MdDashboard } from "react-icons/md";
 import { PiNotepadBold } from "react-icons/pi";
 import { MdNoteAlt } from "react-icons/md";
+import { GiArchiveRegister } from "react-icons/gi";
 
 import HOC from "../utils/hoc";
 
@@ -60,7 +61,7 @@ function SideNavbar() {
                         {expandedLinks.academic && <ul className="sidebar-subList">
                         <Link to='/academic/marksManagment'>
                             <li className={`${is('/academic/marksManagment') ? 'activeLink':''}`}>
-                                Marks Managment
+                                Marks Management
                             </li>
                         </Link> 
                         <Link to='/academic/attendance'>
@@ -72,11 +73,11 @@ function SideNavbar() {
                         }
                     </HOC>
                     <HOC isFor={["Student"]}>
-                        <Link to='/Student/attendance'>
-                            <li className={`${is('/Student/attendance') ? 'activeLink':''}`}>
+                        <Link to='/Student/CourseRegistration'>
+                            <li className={`${is('/Student/CourseRegistration') ? 'activeLink':''}`}>
                                 <div className="sidebar-mainLi">
-                                    <PiNotepadBold size={25} />
-                                    <p>Attendance</p>
+                                    <GiArchiveRegister size={25} />
+                                    <p>Course Registration</p>
                                  </div>
                             </li> 
                         </Link>
@@ -86,6 +87,14 @@ function SideNavbar() {
                                     <MdNoteAlt size={25} />
                                     <p>Marks</p>
                                 </div>
+                            </li> 
+                        </Link>
+                        <Link to='/Student/attendance'>
+                            <li className={`${is('/Student/attendance') ? 'activeLink':''}`}>
+                                <div className="sidebar-mainLi">
+                                    <PiNotepadBold size={25} />
+                                    <p>Attendance</p>
+                                 </div>
                             </li> 
                         </Link>
                     </HOC>
@@ -127,6 +136,11 @@ function SideNavbar() {
                         <Link to='/courseManagement/courses'>
                             <li className={`${is('/courseManagement/courses') ? 'activeLink':''}`}>
                                 Courses
+                            </li>
+                        </Link>
+                        <Link to='/courseManagement/offerCourses'>
+                            <li className={`${is('/courseManagement/offerCourses') ? 'activeLink':''}`}>
+                                Offered Courses
                             </li>
                         </Link>
                         </ul>  

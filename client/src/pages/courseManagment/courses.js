@@ -9,6 +9,7 @@ import AddSection from "../../components/Modal/addSection";
 import Table from "../../components/Common/Table";
 import apiClient from "../../components/config/axios";
 import isUnAuth from "../../utils/checkUnAuth";
+import ShowCourseRegistration from "../../components/Modal/showCourseRegistration";
 
 function Courses() {
 
@@ -21,6 +22,8 @@ function Courses() {
     const [selectedCourse, setSelectedCourse] = useState('')
     const [showSectionModal, setShowSectionModal] = useState(false)
     const [addSectionModal, setAddSectionModal] = useState(false)
+    const [courseRegistrationModal, setCourseRegistrationModal] = useState(false)
+    const [offeredCourses, setOfferedCourses] = useState([])
     const axios = apiClient(localStorage.getItem('token'))
     const navigate = useNavigate()
 
@@ -30,9 +33,21 @@ function Courses() {
     function toggleAddSectionModal(){
         setAddSectionModal(!addSectionModal)
     }
-
+    function toggleCourseRegistrationModal(){
+        setCourseRegistrationModal(!courseRegistrationModal)
+    }
     function toggleAddCourseModal(){
         setAddCourseModalStatus(!addCourseModalStatus)
+    }
+
+    function isDisableOfferBtn(courseID)
+    {
+        const result = offeredCourses.find(course=>course.COURSE_ID==courseID)
+        if(result != undefined)
+            return true
+        else
+            return false
+
     }
 
     useEffect(()=>{
@@ -44,6 +59,16 @@ function Courses() {
         .catch(err=>{
             isUnAuth(err, navigate)
         })
+
+
+        axios.get('/courses/getAllOfferedCourses')
+        .then(res=>{
+            setOfferedCourses(res.data)
+        })
+        .catch(err=>{
+            isUnAuth(err, navigate)
+        })
+
     }, [selectedSection])
 
     useEffect(()=>{
@@ -68,7 +93,11 @@ function Courses() {
         setSelectedCourse(course.ID);
         setAddSectionModal(true)
     }
-
+    const handleCourseRegistration= (course)=>{
+        setSelectedCourse(course.ID);
+        setCourseRegistrationModal(true)
+    }
+    // console.log(isDisableOfferBtn(1))
     return ( 
         <>
         <div className="teacherManagement-container">
@@ -81,10 +110,12 @@ function Courses() {
             </div>
             <div className="teacherManagement-content">
 
-                    <Table titles={['Code', 'Course Name', 'Department', 'Sections', '']}>
+                    <Table titles={['Code', 'Course Name', 'Department', 'Sections', '', '']}>
                         {updatedCourses.map((course)=>{
                             return(
+                            
                                 <tr key={course.ID}>
+
                                     <td>{course.CODE}</td>
                                     <td>{course.NAME}</td>
                                     <td>{course.DEPARTMENT}</td>
@@ -95,7 +126,10 @@ function Courses() {
                                            </span>
                                         )
                                     }):'None'}</td>
-                                    <td><button className="btnStyle" onClick={()=>handleAddSection(course)}>+Section</button></td>
+                                    <td>
+                                        <button style={{marginRight:'1rem'}} className="btnStyle" onClick={()=>handleAddSection(course)}>+Section</button>
+                                        <button className={`btnStyle ${isDisableOfferBtn(course.ID) ? 'gray':''}`} disabled={isDisableOfferBtn(course.ID)} onClick={()=>handleCourseRegistration(course)}>Offer Course</button>
+                                    </td>
                                 </tr>
                             )
                         })}
@@ -104,6 +138,7 @@ function Courses() {
                     <AddCourse show={addCourseModalStatus} close={toggleAddCourseModal} setCourses={setUpdatedCourses} />
                     <AddSection show={addSectionModal} close={toggleAddSectionModal} courseID={selectedCourse} setCourses={setUpdatedCourses}/>
                     <ShowSection show={showSectionModal} close={toggleShowSectionModal} setCourses={setUpdatedCourses} section={selectedSection} setSelectedSection={setSelectedSection} />
+                    <ShowCourseRegistration show={courseRegistrationModal} close={toggleCourseRegistrationModal} courseID={selectedCourse}/>
                 </div>
         </div>
         </>

@@ -19,39 +19,7 @@
     font-weight: bold;
 }
 
-.table-container {
-    overflow-x: auto;
-    max-width: 100%;
-  }
-  
-  .table-container table {
-    min-width: 800px; /* adjust this value to set the minimum width of the table */
-  }
-  .table-container table {
-    min-width: 800px;
-  }
-  
-  .table-container table {
-    min-width: 800px;
-  }
-  
-  .table-container table th:first-child,
-  .table-container table td:first-child {
-    position: sticky;
-    left: 0;
-    z-index: 1;
-    width: 50px;
-  }
-  
-  .table-container table th:nth-child(2),
-  .table-container table td:nth-child(2) {
-    position: sticky;
-    left: 50px; 
-    z-index: 1;
-    width: 200px;
-  }
-  .table-container table td:first-child,
-  .table-container table td:nth-child(2)
-  {
-    background-color: white;
-  }
+
+.display-none{
+  display: none;
+}

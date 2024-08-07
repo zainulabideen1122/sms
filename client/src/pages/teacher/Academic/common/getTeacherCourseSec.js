@@ -75,7 +75,8 @@ function GetTeacherCourseSec({setSendCourse, query}) {
                         )
                     })}
                 </select>
-                <select name="teacher_searchProperty" onChange={handleSelectedData}>
+                <select name="teacher_searchProperty" onChange={handleSelectedData} className={`${!selectedCourse || Object.keys(selectedCourse).length <= 0 ? 'display-none':''}`}>
+                  {console.log('----> ',selectedCourse)}
                     { selectedCourse && selectedCourse.sections !== undefined ? selectedCourse.sections.map(section=>{
                         return(
                             <option key={section.id} value={section.id} >{section.name}</option>

@@ -18,6 +18,8 @@ import MarksManagement from './pages/teacher/Academic/marks';
 import StudentMarks from './pages/student/marks';
 import StudentAttendance from './pages/student/attendance';
 import UnAuthorized from './components/unauth';
+import CourseRegistration from './pages/student/courseRegistration';
+import OfferedCoursesView from './pages/courseManagment/offeredCourses';
 
 function App() {
   // const user = localStorage.getItem('token') ? jwtDecode(localStorage.getItem('token')) : ''
@@ -53,9 +55,10 @@ function AppContent(){
             <Route path='/systemSettings/roleManagement/:id' element={<ManageRoles selectedUser={selectedUser} />}/>
             
             <Route path='/courseManagement/courses' Component={Courses}/>
+            <Route path='/courseManagement/offerCourses' Component={OfferedCoursesView}/>
             <Route path="*" Component={NotFound}/>
             <Route path="/unauthorized" Component={UnAuthorized}/>
-            
+
             {/* teachers */}
             <Route path='/academic/attendance' Component={Attendance} />
             <Route path='/academic/marksManagment' Component={MarksManagement}/>
@@ -63,6 +66,7 @@ function AppContent(){
             {/* Students */}
             <Route path='/Student/attendance' Component={StudentAttendance}/>
             <Route path='/Student/StudentMarks' Component={StudentMarks}/>
+            <Route path='/Student/CourseRegistration' Component={CourseRegistration}/>
 
           </Routes>
         </div>

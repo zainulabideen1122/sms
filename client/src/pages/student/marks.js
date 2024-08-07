@@ -48,7 +48,6 @@ function StudentMarks() {
                 return acc;
               }, []);
             setStudentCourses(courses)
-            //console.log(courses)
         })
         .catch(err=>{
             isUnAuth(err, navigate)
@@ -77,8 +76,7 @@ function StudentMarks() {
                     courseName : showCourseName(selected)
                 })
                 setStudentMarks(res.data.MARKS_DATA)
-            }
-            
+            } 
         }).catch(err=>{
             isUnAuth(err, navigate)
         })
