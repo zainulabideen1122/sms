@@ -200,6 +200,24 @@ const getStudentAttendance = async(req, res)=>{
     res.status(200).json(studentAttendance)
 }
 
+const getStudentAllAttendances = async(req, res)=>{
+    const {email} = req.params
+    
+
+    const user = await db.Student.findOne({
+        include:{
+            model : db.User,
+            where : {EMAIL: email}
+        }
+    })
+
+    const data = await db.Attendance.findAll({
+        where: {STUDENT_ID: user.dataValues.ID}
+    })
+
+    return res.status(200).json(data)
+}
+
 module.exports = {
     markStudentsAttendance,
     getStudentsAttendance,
@@ -208,5 +226,6 @@ module.exports = {
     addStudentMarks, 
     updateStudentMarksSection,
     getStudentMarks,
-    getStudentAttendance
+    getStudentAttendance,
+    getStudentAllAttendances
 }

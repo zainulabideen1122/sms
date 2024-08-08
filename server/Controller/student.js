@@ -235,7 +235,23 @@ const enrollStudentToCourses = async(req, res)=>{
         };
       });
     console.log(studentSections)
-    
+
+    const data = await db.StudentSection.bulkCreate(studentSections)
+
+    if(data)
+    {
+        await Promise.all(
+            Object.keys(courses).map((courseID) => {
+              return db.Section.increment("NUM_OF_STUDENTS", {
+                where: {
+                  ID: courses[courseID],
+                },
+              });
+            })
+          );
+          res.status(200).json(data)
+    }
+        
     res.status(200)
 }
 

@@ -71,7 +71,7 @@ function CourseRegistration() {
             }
             axios.post('/user/enrollStudentToCourses', data)
             .then(res=>{
-                //console
+                console.log(res.data)
             })
             .catch(err=>{
                 isUnAuth(err, navigate)

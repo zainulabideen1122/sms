@@ -19,5 +19,5 @@ router.post('/updateMarksSection', marksController.updateStudentMarksSection)
 
 //students
 router.post('/student/getStudentMarks',verifyRoles('Student'), marksController.getStudentMarks)
-
+router.get('/student/getStudentAllAttendance/:email', verifyRoles('Student'), attendanceController.getStudentAllAttendances)
 module.exports = router
