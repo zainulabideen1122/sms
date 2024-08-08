@@ -39,7 +39,8 @@ const UserRole = db.UserRole
                 DEPARTMENT : req.body.DEPARTMENT,
                 ROLLNUM : req.body.ROLLNUM,
                 BATCH : req.body.BATCH,
-                USER_ID : createdUser.ID
+                USER_ID : createdUser.ID,
+                CURRENT_SEMESTER: 'FALL-'+req.body.BATCH
             },{transaction})
 
             const userRole = await UserRole.create({
@@ -54,12 +55,11 @@ const UserRole = db.UserRole
 
 
 const getStudent = async(req, res)=>{
-    const {id} = req.params
+    const {email} = req.params
     const student = await Student.findOne({
-        where : {ID : id},
         include : {
             model : User,
-            attributes : ['ID', 'NAME', 'EMAIL','PASSWORD']
+            where : {EMAIL: email}
         }
     })
 
@@ -82,7 +82,6 @@ const updateStudent = async(req, res)=>{
                 return res.status(404).json({ message: 'Stuednt not found' });
               }
 
-            //filtering out the empty value keys
             const updateData = Object.keys(req.body).reduce((acc, key) => {
                 if (req.body[key] !== '') {
                   acc[key] = req.body[key];
@@ -151,6 +150,8 @@ const addStudentToCourseSection = async(req, res)=>{
     await section.addStudent(student)
     section.NUM_OF_STUDENTS +=1
     await section.save()
+    console.log(section, student)
+    
     res.status(200).json({msg:"Added!"})
 }
 
@@ -225,6 +226,19 @@ const getStudentCoursesAndSections = async(req, res)=>{
     res.status(200).json(teacher)
 }
 
+const enrollStudentToCourses = async(req, res)=>{
+    const {studentID, courses} = req.body
+    const studentSections = Object.keys(courses).map((courseID) => {
+        return {
+          USER_ID: studentID,
+          SECTION_ID: courses[courseID],
+        };
+      });
+    console.log(studentSections)
+    
+    res.status(200)
+}
+
 module.exports = {
     addStudent,
     getAllStudents, 
@@ -234,5 +248,6 @@ module.exports = {
     addStudentToCourseSection, 
     addStudentsToCourseSection, 
     unrollStudenFromSection,
-    getStudentCoursesAndSections
+    getStudentCoursesAndSections,
+    enrollStudentToCourses
 }

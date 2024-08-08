@@ -9,8 +9,10 @@ router.post('/addSectionToCourse',verifyRoles('Admin'), courseController.addSect
 router.delete('/deleteCourseSection/:id',verifyRoles('Admin'), courseController.deleteCourseSection)
 
 router.get('/getAllOfferedCourses', verifyRoles('Admin'), courseController.getOfferedCourses)
+router.get('/getAllStudentCourse', verifyRoles('Admin', 'Student'), courseController.getAllStudentSection)
 router.post('/offerCourse', verifyRoles('Admin'), courseController.offerCourse)
 router.post('/updateOfferedCourse', courseController.updateOfferedCourses)
 router.post('/getStudentOfferedCourses', courseController.getStudentOfferedCourses)
+
 
 module.exports = router

@@ -9,9 +9,11 @@ function ShowCourseRegistration({show, close, courseID}) {
 
     const axios = apiClient(localStorage.getItem('token'))
     const navigate = useNavigate()
+    const [semester, setSemester] = useState(null)
     const [filters, setFilters] = useState({
         batches : [],
-        departments : []
+        departments : [],
+        semester: ''
     }) 
 
     useEffect(()=>{
@@ -56,6 +58,13 @@ function ShowCourseRegistration({show, close, courseID}) {
             ...filters,
             departments: filters.departments.filter((batch, i) => i !== index)
         });
+    }
+
+    const handleAddSemester = (e)=>{
+        setFilters({
+            ...filters,
+            semester: e.target.value
+        })
     }
 
     const handleOfferCourse = ()=>{
@@ -106,6 +115,14 @@ function ShowCourseRegistration({show, close, courseID}) {
                         <input type="text" placeholder="Batches" onKeyDown={handleAddBatchTag}/>
                     </div>
                     {/* <button className="clearFilters_btn" onClick={clearFilters}>Clear</button> */}
+                <select style={{border:'none', padding:'0.5rem 1rem'}} onChange={handleAddSemester}>
+                    <option selected disabled>Semester</option>
+                    {Array(8).fill().map((_, index) => (
+                        <option key={index} value={index + 1}>
+                        {index + 1}
+                        </option>
+                    ))}
+                </select>
                 </div>
             </div>
             <div>

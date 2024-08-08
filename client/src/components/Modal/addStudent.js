@@ -36,7 +36,7 @@ function AddStudent({show, close, isEdit, setStudents, userID}) {
             PASSWORD : '',
             DEPARTMENT : '',
             ROLLNUM : '',
-            BATCH : ''
+            BATCH : '',
         })
     }
 

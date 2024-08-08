@@ -91,7 +91,8 @@ const deleteCourseSection = async(req, res)=>{
 
 const offerCourse = async(req, res)=>{
     const {courseID, allowed_students} = req.body
-
+    console.log(allowed_students)
+    res.status(200)
     let course = await db.OfferCourses.findOne({
         where : {COURSE_ID : courseID}
     })
@@ -149,7 +150,7 @@ const updateOfferedCourses = async(req, res)=>{
 }
 
 const getStudentOfferedCourses = async(req, res)=>{
-    const {studentEmail} = req.body
+    const {studentEmail, semester} = req.body
     const student = await db.Student.findOne({
         include : {
             model : db.User,
@@ -162,6 +163,7 @@ const getStudentOfferedCourses = async(req, res)=>{
     const Dept = student.dataValues.DEPARTMENT
     let offered = []
     const offeredCourses = await db.OfferCourses.findAll({
+        where: {ALLOWED:{semester:String(semester)}},
         include:{
             model: db.Course
         }
@@ -191,6 +193,15 @@ const getStudentOfferedCourses = async(req, res)=>{
 
 }
 
+const getAllStudentSection = async(req, res)=>{
+    const data = await db.StudentSection.findAll({
+        include:{
+            model:db.Section
+        }
+    })
+    return res.status(200).json(data)
+}
+
 module.exports = {
     addCourse, 
     getAllCourses, 
@@ -200,5 +211,6 @@ module.exports = {
     offerCourse,
     getOfferedCourses, 
     updateOfferedCourses,
-    getStudentOfferedCourses
+    getStudentOfferedCourses,
+    getAllStudentSection
 }

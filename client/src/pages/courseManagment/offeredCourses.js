@@ -38,8 +38,9 @@ function OfferedCoursesView() {
                     </span>
                 </div>
                 <div className="teacherManagement-content">
-                    <Table titles={['Code', 'Course','Offered Departments','Offered Batches', '']}>
+                    <Table titles={['Code', 'Course','Offered Departments','Offered Batches', 'Semester', '']}>
                         {courses.map(course=>{
+                            {console.log(course)}
                             return(
                                 <tr key={course.COURSE_ID}>
                                     <td>{course.Course.CODE}</td>
@@ -54,6 +55,7 @@ function OfferedCoursesView() {
                                             <span style={{marginRight:'0.4rem'}}>{batch}</span>
                                         </>)
                                     })}</td>
+                                    <td>{course.ALLOWED.semester}</td>
                                     <td>
                                         <button className="btnStyle" onClick={()=>{setEditOfferCourseModal(true);setSelectedCourse(course)}}>Edit</button>
                                     </td>

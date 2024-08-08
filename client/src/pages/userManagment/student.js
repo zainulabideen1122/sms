@@ -106,7 +106,7 @@ function StudentManagement() {
                 </div>
 
                 <div className="teacherManagement-content">
-                    <Table titles={['Name', 'Email','Roll Num','Department','Role','']}>
+                    <Table titles={['Name', 'Email','Roll Num','Department','Current Sem','']}>
                         {updatedStudents.map((student)=>{
                             return(
                                 <tr key={student.User.ID}>
@@ -114,7 +114,8 @@ function StudentManagement() {
                                     <td>{student.User.EMAIL}</td>
                                     <td>{student.ROLLNUM}</td>
                                     <td>{student.DEPARTMENT}</td>
-                                    <td>{student.User.Roles[0] ? student.User.Roles[0].NAME : ''}</td>
+                                    {/* <td>{student.User.Roles[0] ? student.User.Roles[0].NAME : ''}</td> */}
+                                    <td>{student.CURRENT_SEMESTER}</td>
                                     <td className="table-btns">
                                         <span className="table-editBtn" onClick={()=>handleEditUser(student.ID)}>
                                             <MdEdit size={25}/>

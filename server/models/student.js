@@ -25,6 +25,9 @@ module.exports = (sequalize, DataTypes)=>{
         BATCH: {
           type: DataTypes.INTEGER,
           allowNull: false
+        },
+        CURRENT_SEMESTER:{
+          type: DataTypes.STRING
         }
       }, {
         tableName: 'STUDENT'
