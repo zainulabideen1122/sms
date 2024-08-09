@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './index.css'
 import { FaRegUserCircle } from "react-icons/fa";
 import { useState } from 'react';
@@ -16,13 +16,13 @@ function Navbar() {
     return ( 
         <>
             <div className="navbar">
-                <h1>SMS</h1>
+                <h1>Flex</h1>
                 <div className="navbar-options">
                     <span>
                         <FaRegUserCircle size={30} onClick={()=>setNavbarCard(!navbarCard)}/>
                         {navbarCard && <div className='navbarLeft_card'>
-                            <li>My Profile</li>
-                            <li>Change Password</li>
+                            <Link onClick={()=>setNavbarCard(false)} to={'/'}><li>My Profile</li></Link>
+                            <Link onClick={()=>setNavbarCard(false)} to={'/changePassword'}><li>Change Password</li></Link>
                             <button className="logout-btn" onClick={handleLogout}>Log out</button>
                         </div>}
                     </span>

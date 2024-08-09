@@ -1,0 +1,24 @@
+.attendanceChart
+{
+    padding: 4rem;
+}
+
+.studentData_container
+{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    width: 80%;
+    margin-left: 8%;
+    padding: 2rem;
+    margin-top: 3rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 0 10px rgba(128, 128, 128, 0.301);
+}
+.studentData_container p{
+    padding: 0.5rem;
+}
+
+.homePage_AttendanceHeading
+{
+    margin-left: 2rem;
+}

@@ -20,6 +20,7 @@ import StudentAttendance from './pages/student/attendance';
 import UnAuthorized from './components/unauth';
 import CourseRegistration from './pages/student/courseRegistration';
 import OfferedCoursesView from './pages/courseManagment/offeredCourses';
+import ChangePassword from './components/changePassword';
 
 function App() {
   // const user = localStorage.getItem('token') ? jwtDecode(localStorage.getItem('token')) : ''
@@ -44,7 +45,6 @@ function AppContent(){
         {!showNav && <SideNavbar className={`${!showNav ? 'side-navbar':''}`} />}
         <div className={`${!showNav ? 'main-content':''}`}>
           <Routes>
-
             <Route path='/' Component={Home}/>
             <Route path='/auth/login' Component={Login}/>
             <Route path='/userManagement/teacher' Component={TeacherManagement}/>
@@ -58,6 +58,7 @@ function AppContent(){
             <Route path='/courseManagement/offerCourses' Component={OfferedCoursesView}/>
             <Route path="*" Component={NotFound}/>
             <Route path="/unauthorized" Component={UnAuthorized}/>
+            <Route path="/changePassword" Component={ChangePassword} />
 
             {/* teachers */}
             <Route path='/academic/attendance' Component={Attendance} />

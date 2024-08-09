@@ -212,7 +212,13 @@ const getStudentAllAttendances = async(req, res)=>{
     })
 
     const data = await db.Attendance.findAll({
-        where: {STUDENT_ID: user.dataValues.ID}
+        where: {STUDENT_ID: user.dataValues.ID},
+        include:{
+            model: db.Section,
+            include:{
+                model: db.Course
+            }
+        }
     })
 
     return res.status(200).json(data)

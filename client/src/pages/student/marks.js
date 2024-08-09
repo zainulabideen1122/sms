@@ -32,6 +32,7 @@ function StudentMarks() {
         const data = {studentEmail : userEmail}
         axios.post('/user/getStudentCoursesAndSections', data)
         .then(res=>{
+            console.log(res.data)
             setStudentDetails({...studentDetails ,studentID:res.data.ID})
             const courses = res.data.Sections.reduce((acc, section) => {
                 const existingCourse = acc.find((course) => course.id === section.Course.ID);
